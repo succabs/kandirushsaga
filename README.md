@@ -10,6 +10,15 @@ To execute a fun idea and learn Javascript.
 
 # How to run it?
 Clone repo and open index.html.
-
+Will put a working product on my own site when it's ready enough.
 # License?
 MIT.
+
+# TODO
+-player cant go out of bounds
+-graphics
+-enemies range from 1-5 student credits
+-sounds
+-menu
+-different random occurences
+-harder
