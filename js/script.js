@@ -13,7 +13,7 @@ var bulletSpeed = -6;
 var bulletArray = [];
 var maxBullets = 10;
 var score = 0;
-var health = 3;
+var health = 32;
 
 window.onload = function () {
         gameCanvas = document.getElementById("gameCanvas");
@@ -26,11 +26,6 @@ window.onload = function () {
 
  player=new playerPlane("player.png", canvasWidth / 2, 560, 32, 32);
  
-  gameCanvas.addEventListener('mousemove', function (event) { 
-    var mousePos = getMousePos(gameCanvas, event);
-    //player.y = mousePos.y - player.height / 2;
-    player.x = mousePos.x - player.width / 2;
-  }, false);    
 
   for (var i = 0; i < maxBullets; i++) {
     bulletArray[i] = new bullet();
@@ -48,11 +43,40 @@ window.onload = function () {
     }
   }, false);
 
+gameCanvas.addEventListener("keydown", keyDownHandler, false);
+gameCanvas.addEventListener("keyup", keyUpHandler, false);
+
 };
+
+function keyUpHandler(e) {
+    if(e.key == "Right" || e.key == "ArrowRight") {
+        player.speed = 0;
+        player.x = player.x;
+    }
+    else if(e.key == "Left" || e.key == "ArrowLeft") {
+        player.speed = 0;
+        player.x = player.x;
+    }
+}
+
+function keyDownHandler(e) {
+    if(e.key == "Right" || e.key == "ArrowRight") {
+        player.speed = 5;
+    
+    if (player.x < 100){
+        player.x = 100;
+    }
+    }
+    
+    else if(e.key == "Left" || e.key == "ArrowLeft") {
+        player.speed = -5;
+}
+}
 
 function playerPlane(file, x, y, width, height) {
   this.health = 3;
   this.score = 0;
+  this.speed = 0;
   this.playerFlash = false;
   this.playerInvulnerable = false;
   this.image = new Image();
@@ -74,7 +98,7 @@ function playerPlane(file, x, y, width, height) {
   this.ycenter = 0;
 
   this.update = function () {
-    this.xcenter = this.x + this.width / 2;
+    this.x = this.x + this.speed;
     this.ycenter = this.y + this.height / 2;
     if (!this.playerFlash) {
       ctx.drawImage(this.image,this.x,this.y,this.width,this.height);
@@ -172,7 +196,7 @@ function loadingUpdate() {
     }, 8000);
   }
 }
-
+//function to update the game state
 function updateGame() {
   requestID = requestAnimationFrame(updateGame);
   ctx.clearRect(0, 0, canvasWidth, canvasHeight);
@@ -187,17 +211,11 @@ function updateGame() {
   }
   ctx.font = "30px Arial";
   ctx.fillStyle = 'white';
-  ctx.fillText("Health: " + health, canvasWidth - 140, 40);
-  ctx.fillText("Score: " + player.score + "/180", 20, 40);
+  ctx.fillText("Tukikuukaudet: " + health, canvasWidth - 280, 40);
+  ctx.fillText("Opintopisteet: " + player.score + "/180", 20, 40);
 }
 
-function getMousePos(canvas, evt) {
-  var rect = canvas.getBoundingClientRect();
-  return {
-    x:(evt.clientX-rect.left)/(rect.right-rect.left)*canvasWidth,
-    y:(evt.clientY-rect.top)/(rect.bottom-rect.top)*canvasHeight};
-}
-
+//function for bullet
 function bullet() {
   this.image = new Image();
 
@@ -220,12 +238,13 @@ function bullet() {
     if (this.y < -10) {
       this.active = false;
     }
-        checkEnemyCollision(enemy1, this);
+  checkEnemyCollision(enemy1, this);
   checkEnemyCollision(enemy2, this);
   checkEnemyCollision(enemy3, this);
   };
 }
 
+//function for checkin the enemy collision
 function checkEnemyCollision(object1, object2) {
   if ((object2.x + object2.width / 2 > object1.x) && (object2.x + object2.width / 2 < object1.x + object1.width) && (object2.y + object2.height / 2 > object1.y) && (object2.y + object2.height / 2 < object1.y + object1.height)) {
     object1.y = -200;
@@ -239,10 +258,9 @@ function checkEnemyCollision(object1, object2) {
     }
   }
 }
-
+//function for player and enemy collision
 function checkPlayerCollision(playerObject, enemyObject) {
-
-  if ((playerObject.xcenter > enemyObject.x) && (playerObject.xcenter < enemyObject.x + enemyObject.width) && (playerObject.ycenter > enemyObject.y) && (playerObject.ycenter < enemyObject.y + enemyObject.height)) {
+  if ((playerObject.x > enemyObject.x) && (playerObject.x < enemyObject.x + enemyObject.width) && (playerObject.y > enemyObject.y) && (playerObject.y < enemyObject.y + enemyObject.height)) {
     enemyObject.resetLocation();
     playerObject.flashPlayer();
           health = health - 1;
@@ -252,6 +270,7 @@ function checkPlayerCollision(playerObject, enemyObject) {
   }
 }
 
+//function for ending the game when hp hits zero
 function endGame() {
   cancelAnimationFrame(requestID);
   ctx.clearRect(0, 0, canvasWidth, canvasHeight);
