@@ -9,7 +9,7 @@ Move with left and right arrows, shoot with space. Works only on desktop.
 To execute a fun idea and learn Javascript.
 
 # How to run it?
-Clone repo and open index.html
+Clone repo and open index.html.
 
 # License?
 MIT.
