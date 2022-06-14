@@ -1,11 +1,8 @@
 #gameCanvas{
-width: 800px;
-height: 600px;
     background-color: #0141AD;
 }
 
 body {
     text-align: center;
-    background-color: white;
-overflow: hidden;
+overflow-x: hidden;
 }
