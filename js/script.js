@@ -1,37 +1,67 @@
+
+//initialize variables
 var gameCanvas;
 var ctx;
 var canvasWidth = 800;
 var canvasHeight = 600;
-var numResources = 14; 
+var numResources = 16; 
 var loadProgress = 0;
 var requestID;
 var enemy1;
 var enemy2;
 var enemy3;
+var enemy4;
+var enemy5;
 var player;
-var bulletSpeed = -6;
+var bulletSpeed = -10;
 var bulletArray = [];
 var maxBullets = 10;
 var score = 0;
 var health = 32;
+
 
 window.onload = function () {
         gameCanvas = document.getElementById("gameCanvas");
         gameCanvas.width = canvasWidth; 
         gameCanvas.height = canvasHeight; 
         ctx = gameCanvas.getContext("2d");
-    enemy1=new enemy("enemy.png", Math.random()*canvasWidth, -80, 80, 80, 2000);
-  enemy2=new enemy("enemy.png", Math.random()*canvasWidth, -80, 80, 80, 3000);
-  enemy3=new enemy("enemy.png", Math.random()*canvasWidth, -80, 80, 80, 10000);
+enemy1=new enemy("1op.png", Math.random()*canvasWidth, -80, 80, 80, 2000);
+enemy2=new enemy("2op.png", Math.random()*canvasWidth, -80, 80, 80, 3000);
+enemy3=new enemy("3op.png", Math.random()*canvasWidth, -80, 80, 80, 10000);
+player=new playerPlane("playerhat.png", canvasWidth / 2, 560, 48, 48); 
 
- player=new playerPlane("player.png", canvasWidth / 2, 560, 32, 32);
- 
-
+enemy4=new enemy("4op.png", Math.random()*canvasWidth, -80, 80, 80, 12000);
+enemy5=new enemy("5op.png", Math.random()*canvasWidth, -80, 80, 80, 20000);
+  //handles the number of bullets on the screen  
   for (var i = 0; i < maxBullets; i++) {
     bulletArray[i] = new bullet();
   }
- 
-  gameCanvas.addEventListener('click', function (event) {
+
+//listen for keypresses
+gameCanvas.addEventListener("keydown", keyDownHandler, false);
+gameCanvas.addEventListener("keyup", keyUpHandler, false);
+
+};
+
+function keyUpHandler(e) {
+    if(e.key == "Right" || e.key == "ArrowRight") {
+        player.speed = 0;
+    }
+    else if(e.key == "Left" || e.key == "ArrowLeft") {
+        player.speed = 0;
+    }
+}
+
+function keyDownHandler(e) {
+    if(e.key == "Right" || e.key == "ArrowRight") {
+        player.speed = 7;    
+    }
+    
+    else if(e.key == "Left" || e.key == "ArrowLeft") {
+        player.speed = -7;
+    }
+    else if(e.key === ' ' || e.key === 'Spacebar') {
+
     var bulletPos={x: player.x+player.width/2, y: player.y+player.height/2};
     for (var i = 0; i < maxBullets; i++) {
       if (!bulletArray[i].active) {
@@ -41,40 +71,12 @@ window.onload = function () {
         break;
       }
     }
-  }, false);
-
-gameCanvas.addEventListener("keydown", keyDownHandler, false);
-gameCanvas.addEventListener("keyup", keyUpHandler, false);
-
-};
-
-function keyUpHandler(e) {
-    if(e.key == "Right" || e.key == "ArrowRight") {
-        player.speed = 0;
-        player.x = player.x;
+ e.preventDefault(); 
     }
-    else if(e.key == "Left" || e.key == "ArrowLeft") {
-        player.speed = 0;
-        player.x = player.x;
-    }
-}
-
-function keyDownHandler(e) {
-    if(e.key == "Right" || e.key == "ArrowRight") {
-        player.speed = 5;
-    
-    if (player.x < 100){
-        player.x = 100;
-    }
-    }
-    
-    else if(e.key == "Left" || e.key == "ArrowLeft") {
-        player.speed = -5;
-}
 }
 
 function playerPlane(file, x, y, width, height) {
-  this.health = 3;
+  this.health = 0;
   this.score = 0;
   this.speed = 0;
   this.playerFlash = false;
@@ -99,7 +101,11 @@ function playerPlane(file, x, y, width, height) {
 
   this.update = function () {
     this.x = this.x + this.speed;
-    this.ycenter = this.y + this.height / 2;
+     			if (this.x <= 0) // Keep player within the screen
+					this.x = 0;
+    if (this.x >= canvasWidth-32)
+					this.x = canvasWidth -32;
+      this.ycenter = this.y + this.height / 2;
     if (!this.playerFlash) {
       ctx.drawImage(this.image,this.x,this.y,this.width,this.height);
     }
@@ -186,15 +192,21 @@ function loadingUpdate() {
     if (loadProgress == numResources) {
     requestID = requestAnimationFrame(updateGame);
      setTimeout(function () {
-      enemy1.yspeed = 3;
+      enemy1.yspeed = 2;
     }, 4000);
     setTimeout(function () {
-      enemy2.yspeed = 4;
+      enemy2.yspeed = 2;
     }, 6000);
     setTimeout(function () {
-      enemy3.yspeed = 5;
+      enemy3.yspeed = 3;
     }, 8000);
-  }
+    setTimeout(function () {
+      enemy4.yspeed = 4;
+    }, 8000);
+    setTimeout(function () {
+      enemy5.yspeed = 5;
+    }, 8000);
+    }
 }
 //function to update the game state
 function updateGame() {
@@ -203,6 +215,8 @@ function updateGame() {
   enemy1.update();
   enemy2.update();
   enemy3.update();
+  enemy4.update();
+  enemy5.update();
   player.update();
   for (var i = 0; i <  maxBullets; i++) {
     if (bulletArray[i].active) {
@@ -241,6 +255,8 @@ function bullet() {
   checkEnemyCollision(enemy1, this);
   checkEnemyCollision(enemy2, this);
   checkEnemyCollision(enemy3, this);
+  checkEnemyCollision(enemy4, this);
+  checkEnemyCollision(enemy5, this);
   };
 }
 
@@ -255,6 +271,8 @@ function checkEnemyCollision(object1, object2) {
       enemy1.yspeed = enemy1.yspeed + 1;
       enemy2.yspeed = enemy2.yspeed + 1;
       enemy3.yspeed = enemy3.yspeed + 1;
+      enemy4.yspeed = enemy4.yspeed + 1;
+      enemy5.yspeed = enemy5.yspeed + 1;
     }
   }
 }
