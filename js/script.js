@@ -148,6 +148,7 @@ function enemy(file, x, y, width, height, wait) {
   this.width = width;
   this.height = height;
   this.image = new Image();
+  this.points = 0;
  
   this.image.onload = function () {
     loadProgress = loadProgress + 1;
@@ -193,19 +194,24 @@ function loadingUpdate() {
     requestID = requestAnimationFrame(updateGame);
      setTimeout(function () {
       enemy1.yspeed = 2;
+         enemy1.points = 1;
     }, 4000);
     setTimeout(function () {
       enemy2.yspeed = 2;
-    }, 6000);
+      enemy2.points = 2;
+    }, 5000);
     setTimeout(function () {
       enemy3.yspeed = 3;
+        enemy3.points = 3;
     }, 8000);
     setTimeout(function () {
       enemy4.yspeed = 4;
-    }, 8000);
+        enemy4.points = 4;
+    }, 10000);
     setTimeout(function () {
       enemy5.yspeed = 5;
-    }, 8000);
+        enemy5.points = 5;
+    }, 12000);
     }
 }
 //function to update the game state
@@ -266,7 +272,7 @@ function checkEnemyCollision(object1, object2) {
     object1.y = -200;
     object2.active = false;
     object1.x =30+Math.random()*(canvasWidth-object1.width-30);
-     player.score = player.score + 1;
+     player.score = player.score + object1.points;
     if ((player.score % 20 == 0)) {
       enemy1.yspeed = enemy1.yspeed + 1;
       enemy2.yspeed = enemy2.yspeed + 1;
