@@ -15,10 +15,15 @@ Will put a working product on my own site when it's ready enough.
 MIT.
 
 # TODO
--player cant go out of bounds
 -graphics
--enemies range from 1-5 student credits
+
 -sounds
+
 -menu
+
 -different random occurences
--harder
+*selvityspyyntö, plagiointisyytös
+
+-average calculator
+
+-adjust difficulty

@@ -36,7 +36,6 @@ enemy5=new enemy("5op.png", Math.random()*canvasWidth, -80, 80, 80, 20000);
   for (var i = 0; i < maxBullets; i++) {
     bulletArray[i] = new bullet();
   }
-
 //listen for keypresses
 gameCanvas.addEventListener("keydown", keyDownHandler, false);
 gameCanvas.addEventListener("keyup", keyUpHandler, false);
@@ -182,14 +181,14 @@ function enemy(file, x, y, width, height, wait) {
 }
 
 function loadingUpdate() {
-  ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-  ctx.font = "60px Arial";
-  ctx.fillStyle = 'white';
-  ctx.fillText("Loading: " + loadProgress, 300, 400);
-  ctx.rect(200, 450, 600, 50);
-  ctx.stroke();
-  ctx.fillStyle = 'green';
-  ctx.fillRect(205,455,590*(loadProgress/numResources),40);
+ // ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+ // ctx.font = "60px Arial";
+ // ctx.fillStyle = 'white';
+ // ctx.fillText("Loading: " + loadProgress, 300, 400);
+ // ctx.rect(200, 450, 600, 50);
+ // ctx.stroke();
+ // ctx.fillStyle = 'green';
+ // ctx.fillRect(205,455,590*(loadProgress/numResources),40);
     if (loadProgress == numResources) {
     requestID = requestAnimationFrame(updateGame);
      setTimeout(function () {
@@ -217,7 +216,9 @@ function loadingUpdate() {
 //function to update the game state
 function updateGame() {
   requestID = requestAnimationFrame(updateGame);
-  ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+ ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+   ctx.fillStyle = "blue";
+ctx.fillRect(0, 0, canvasWidth, canvasHeight); 
   enemy1.update();
   enemy2.update();
   enemy3.update();
@@ -233,8 +234,11 @@ function updateGame() {
   ctx.fillStyle = 'white';
   ctx.fillText("Tukikuukaudet: " + health, canvasWidth - 280, 40);
   ctx.fillText("Opintopisteet: " + player.score + "/180", 20, 40);
-}
+// if(player.score >= 5) {
+  //   endGame();
 
+// }
+}
 //function for bullet
 function bullet() {
   this.image = new Image();
@@ -280,25 +284,35 @@ function checkEnemyCollision(object1, object2) {
       enemy4.yspeed = enemy4.yspeed + 1;
       enemy5.yspeed = enemy5.yspeed + 1;
     }
+   if(player.score >= 5) {
+       endGame(0);
+  }
   }
 }
+
 //function for player and enemy collision
 function checkPlayerCollision(playerObject, enemyObject) {
   if ((playerObject.x > enemyObject.x) && (playerObject.x < enemyObject.x + enemyObject.width) && (playerObject.y > enemyObject.y) && (playerObject.y < enemyObject.y + enemyObject.height)) {
     enemyObject.resetLocation();
     playerObject.flashPlayer();
           health = health - 1;
-    if (health == 0) {
-      endGame();
+    if (health <= 0) {
+      endGame(1);
     }
   }
 }
 
 //function for ending the game when hp hits zero
-function endGame() {
+function endGame(number) {
   cancelAnimationFrame(requestID);
   ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-  ctx.font = "60px Arial";
-  ctx.fillStyle = 'white';
-  ctx.fillText("Game Over!", 200, 400);
+  ctx.font = "48px Arial";
+  ctx.fillStyle = 'black';
+  if (number == 0) {
+  ctx.fillText("Congratulations!", 200, 400);
+  }
+ else if (number == 1) {
+  ctx.fillText("Game over!", 200, 400);
+ }
+
 }
