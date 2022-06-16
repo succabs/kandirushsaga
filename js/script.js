@@ -17,8 +17,9 @@ var bulletSpeed = -10;
 var bulletArray = [];
 var maxBullets = 10;
 var score = 0;
+var ka = 0;
 var health = 32;
-
+var canShoot = true;
 
 window.onload = function () {
         gameCanvas = document.getElementById("gameCanvas");
@@ -29,7 +30,6 @@ enemy1=new enemy("1op.png", Math.random()*canvasWidth, -80, 80, 80, 2000);
 enemy2=new enemy("2op.png", Math.random()*canvasWidth, -80, 80, 80, 3000);
 enemy3=new enemy("3op.png", Math.random()*canvasWidth, -80, 80, 80, 10000);
 player=new playerPlane("playerhat.png", canvasWidth / 2, 560, 48, 48); 
-
 enemy4=new enemy("4op.png", Math.random()*canvasWidth, -80, 80, 80, 12000);
 enemy5=new enemy("5op.png", Math.random()*canvasWidth, -80, 80, 80, 20000);
   //handles the number of bullets on the screen  
@@ -49,6 +49,10 @@ function keyUpHandler(e) {
     else if(e.key == "Left" || e.key == "ArrowLeft") {
         player.speed = 0;
     }
+
+    if(e.key === ' ' || e.key === 'Spacebar')  {
+canShoot = true;
+}
 }
 
 function keyDownHandler(e) {
@@ -59,7 +63,7 @@ function keyDownHandler(e) {
     else if(e.key == "Left" || e.key == "ArrowLeft") {
         player.speed = -7;
     }
-    else if(e.key === ' ' || e.key === 'Spacebar') {
+    else if((e.key === ' ' || e.key === 'Spacebar') && (canShoot == true))  {
 
     var bulletPos={x: player.x+player.width/2, y: player.y+player.height/2};
     for (var i = 0; i < maxBullets; i++) {
@@ -70,6 +74,7 @@ function keyDownHandler(e) {
         break;
       }
     }
+    canShoot = false;
  e.preventDefault(); 
     }
 }
@@ -77,6 +82,7 @@ function keyDownHandler(e) {
 function playerPlane(file, x, y, width, height) {
   this.health = 0;
   this.score = 0;
+  this.ka = 0;
   this.speed = 0;
   this.playerFlash = false;
   this.playerInvulnerable = false;
@@ -137,6 +143,7 @@ function playerPlane(file, x, y, width, height) {
   };
 }
 
+//function of enemy
 function enemy(file, x, y, width, height, wait) {
   this.wait = wait;
   this.x = x;
@@ -181,15 +188,15 @@ function enemy(file, x, y, width, height, wait) {
 }
 
 function loadingUpdate() {
- // ctx.clearRect(0, 0, canvasWidth, canvasHeight);
- // ctx.font = "60px Arial";
- // ctx.fillStyle = 'white';
- // ctx.fillText("Loading: " + loadProgress, 300, 400);
- // ctx.rect(200, 450, 600, 50);
- // ctx.stroke();
- // ctx.fillStyle = 'green';
- // ctx.fillRect(205,455,590*(loadProgress/numResources),40);
-    if (loadProgress == numResources) {
+  ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+  ctx.font = "60px Arial";
+  ctx.fillStyle = 'white';
+  ctx.fillText("Loading: " + loadProgress, 300, 400);
+  ctx.rect(200, 450, 600, 50);
+  ctx.stroke();
+  ctx.fillStyle = 'green';
+  ctx.fillRect(205,455,590*(loadProgress/numResources),40);
+    if (loadProgress >= numResources) {
     requestID = requestAnimationFrame(updateGame);
      setTimeout(function () {
       enemy1.yspeed = 2;
@@ -218,7 +225,13 @@ function updateGame() {
   requestID = requestAnimationFrame(updateGame);
  ctx.clearRect(0, 0, canvasWidth, canvasHeight);
    ctx.fillStyle = "blue";
-ctx.fillRect(0, 0, canvasWidth, canvasHeight); 
+ctx.fillRect(0, 0, canvasWidth, 100); 
+   ctx.fillStyle = "red";
+ctx.fillRect(0, 100, canvasWidth, 100); 
+   ctx.fillStyle = "green";
+ctx.fillRect(0, 200, canvasWidth, 100); 
+   ctx.fillStyle = "yellow";
+ctx.fillRect(0, 300, canvasWidth, 100); 
   enemy1.update();
   enemy2.update();
   enemy3.update();
@@ -230,22 +243,21 @@ ctx.fillRect(0, 0, canvasWidth, canvasHeight);
       bulletArray[i].update();
     }
   }
-  ctx.font = "30px Arial";
+  ctx.font = "24px Arial";
   ctx.fillStyle = 'white';
-  ctx.fillText("Tukikuukaudet: " + health, canvasWidth - 280, 40);
+  ctx.fillText("Tukikuukaudet: " + health, canvasWidth - 220, 40);
   ctx.fillText("Opintopisteet: " + player.score + "/180", 20, 40);
-// if(player.score >= 5) {
-  //   endGame();
-
-// }
+  ctx.fillText("Keskiarvo: " + (player.score / player.ka).toFixed(2) , 300, 40);
 }
+
 //function for bullet
 function bullet() {
   this.image = new Image();
 
   this.image.onload = function () {
     loadProgress = loadProgress + 1;
-    loadingUpdate();
+    console.log(loadProgress);
+      loadingUpdate();
   };
 
   this.image.src = "assets/graphics/bullet.png";
@@ -277,6 +289,7 @@ function checkEnemyCollision(object1, object2) {
     object2.active = false;
     object1.x =30+Math.random()*(canvasWidth-object1.width-30);
      player.score = player.score + object1.points;
+     player.ka += 1; 
     if ((player.score % 20 == 0)) {
       enemy1.yspeed = enemy1.yspeed + 1;
       enemy2.yspeed = enemy2.yspeed + 1;
@@ -306,13 +319,17 @@ function checkPlayerCollision(playerObject, enemyObject) {
 function endGame(number) {
   cancelAnimationFrame(requestID);
   ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-  ctx.font = "48px Arial";
+  ctx.font = "24px Arial";
   ctx.fillStyle = 'black';
   if (number == 0) {
-  ctx.fillText("Congratulations!", 200, 400);
+  ctx.fillText("Congratulations!", 200, 250);
+  ctx.fillText("You finished in time!", 200, 300);
+  ctx.fillText("Study credits acquired: " + player.score, 200, 350);
+  ctx.fillText("GPA: " + (player.score / player.ka).toFixed(2), 200, 400);
   }
  else if (number == 1) {
   ctx.fillText("Game over!", 200, 400);
  }
-
 }
+
+//JOS AMPUU ENNEN EKAN VIHUN TULOA, PISTEITA EI TULE JA VIHUT TULEE SAMAAN AIKAAN! VIHUT MENEE ULOS REUNOILTA!
