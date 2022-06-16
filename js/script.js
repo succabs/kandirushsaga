@@ -1,10 +1,9 @@
-
 //initialize variables
 var gameCanvas;
 var ctx;
 var canvasWidth = 800;
 var canvasHeight = 600;
-var numResources = 16; 
+var numResources = 16;
 var loadProgress = 0;
 var requestID;
 var enemy1;
@@ -24,7 +23,7 @@ var courseNumber = 0;
 var newGame = false;
 window.onload = function () {
         gameCanvas = document.getElementById("gameCanvas");
-    document.getElementById("gameCanvas").focus();    
+    document.getElementById("gameCanvas").focus();
     gameCanvas.width = canvasWidth; 
         gameCanvas.height = canvasHeight; 
         ctx = gameCanvas.getContext("2d");
@@ -61,7 +60,7 @@ function keyDownHandler(e) {
     if(e.key == "Right" || e.key == "ArrowRight") {
         player.speed = 7;    
     }
-    
+
     else if(e.key == "Left" || e.key == "ArrowLeft") {
         player.speed = -7;
     }
@@ -113,9 +112,9 @@ function playerPlane(file, x, y, width, height) {
   this.xcenter = 0;
   this.ycenter = 0;
 
-  this.update = function () {
-    this.x = this.x + this.speed;
-     			if (this.x <= 0) // Keep player within the screen
+this.update = function () {
+this.x = this.x + this.speed;
+if (this.x <= 0) // Keep player within the screen
 					this.x = 0;
     if (this.x >= canvasWidth-32)
 					this.x = canvasWidth -32;
@@ -163,15 +162,14 @@ function enemy(file, x, y, width, height, wait) {
   this.width = width;
   this.height = height;
   this.image = new Image();
-  this.points = 0;
- 
+this.points = 0;
   this.image.onload = function () {
     loadProgress = loadProgress + 1;
     loadingUpdate();
   };
- 
+
   this.image.src = "assets/graphics/" + file;
- 
+
   this.update = function () {
     this.y = this.y + this.yspeed;
     this.x = this.x + this.xspeed;
