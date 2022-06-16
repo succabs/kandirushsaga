@@ -20,10 +20,12 @@ var score = 0;
 var ka = 0;
 var health = 32;
 var canShoot = true;
-
+var courseNumber = 0;
+var newGame = false;
 window.onload = function () {
         gameCanvas = document.getElementById("gameCanvas");
-        gameCanvas.width = canvasWidth; 
+    document.getElementById("gameCanvas").focus();    
+    gameCanvas.width = canvasWidth; 
         gameCanvas.height = canvasHeight; 
         ctx = gameCanvas.getContext("2d");
 enemy1=new enemy("1op.png", Math.random()*canvasWidth, -80, 80, 80, 2000);
@@ -77,12 +79,19 @@ function keyDownHandler(e) {
     canShoot = false;
  e.preventDefault(); 
     }
+    else if((e.key === 'n' || e.key === 'N') && (newGame == true))  {
+    player.score = 0;
+    player.ka = 0;
+    player.courseNumber = 0;
+        updateGame();
+    }
 }
 
 function playerPlane(file, x, y, width, height) {
   this.health = 0;
   this.score = 0;
   this.ka = 0;
+  this.courseNumber = 0;
   this.speed = 0;
   this.playerFlash = false;
   this.playerInvulnerable = false;
@@ -196,7 +205,7 @@ function loadingUpdate() {
   ctx.stroke();
   ctx.fillStyle = 'green';
   ctx.fillRect(205,455,590*(loadProgress/numResources),40);
-    if (loadProgress >= numResources) {
+    if (loadProgress == numResources) {
     requestID = requestAnimationFrame(updateGame);
      setTimeout(function () {
       enemy1.yspeed = 2;
@@ -224,13 +233,13 @@ function loadingUpdate() {
 function updateGame() {
   requestID = requestAnimationFrame(updateGame);
  ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-   ctx.fillStyle = "blue";
+   ctx.fillStyle = "#F4BFBF";
 ctx.fillRect(0, 0, canvasWidth, 100); 
-   ctx.fillStyle = "red";
+   ctx.fillStyle = "#FFD9C0";
 ctx.fillRect(0, 100, canvasWidth, 100); 
-   ctx.fillStyle = "green";
+   ctx.fillStyle = "#FAF0D7";
 ctx.fillRect(0, 200, canvasWidth, 100); 
-   ctx.fillStyle = "yellow";
+   ctx.fillStyle = "#8CC0DE";
 ctx.fillRect(0, 300, canvasWidth, 100); 
   enemy1.update();
   enemy2.update();
@@ -247,7 +256,7 @@ ctx.fillRect(0, 300, canvasWidth, 100);
   ctx.fillStyle = 'white';
   ctx.fillText("Tukikuukaudet: " + health, canvasWidth - 220, 40);
   ctx.fillText("Opintopisteet: " + player.score + "/180", 20, 40);
-  ctx.fillText("Keskiarvo: " + (player.score / player.ka).toFixed(2) , 300, 40);
+  ctx.fillText("Keskiarvo: " + (player.ka / player.courseNumber).toFixed(2) , 300, 40);
 }
 
 //function for bullet
@@ -285,11 +294,12 @@ function bullet() {
 //function for checkin the enemy collision
 function checkEnemyCollision(object1, object2) {
   if ((object2.x + object2.width / 2 > object1.x) && (object2.x + object2.width / 2 < object1.x + object1.width) && (object2.y + object2.height / 2 > object1.y) && (object2.y + object2.height / 2 < object1.y + object1.height)) {
+     player.ka += calculateGrade(object1); 
     object1.y = -200;
     object2.active = false;
     object1.x =30+Math.random()*(canvasWidth-object1.width-30);
-     player.score = player.score + object1.points;
-     player.ka += 1; 
+     player.courseNumber += 1;
+      player.score = player.score + object1.points;
     if ((player.score % 20 == 0)) {
       enemy1.yspeed = enemy1.yspeed + 1;
       enemy2.yspeed = enemy2.yspeed + 1;
@@ -297,12 +307,30 @@ function checkEnemyCollision(object1, object2) {
       enemy4.yspeed = enemy4.yspeed + 1;
       enemy5.yspeed = enemy5.yspeed + 1;
     }
-   if(player.score >= 5) {
+   if(player.score >= 180) {
        endGame(0);
   }
   }
 }
+function calculateGrade(enemy) {
+console.log(enemy.y);
+if(enemy.y <= 20) {
+    return 5;
+}
+if(enemy.y <= 120) {
+    return 4;
+}
+if(enemy.y <= 220) {
+    return 3;
+}
+if(enemy.y <= 320) {
+    return 2;
+}
+if(enemy.y >= 321) {
+    return 1;
+}
 
+}
 //function for player and enemy collision
 function checkPlayerCollision(playerObject, enemyObject) {
   if ((playerObject.x > enemyObject.x) && (playerObject.x < enemyObject.x + enemyObject.width) && (playerObject.y > enemyObject.y) && (playerObject.y < enemyObject.y + enemyObject.height)) {
@@ -315,8 +343,9 @@ function checkPlayerCollision(playerObject, enemyObject) {
   }
 }
 
-//function for ending the game when hp hits zero
+//function for ending the game
 function endGame(number) {
+  newGame = true;
   cancelAnimationFrame(requestID);
   ctx.clearRect(0, 0, canvasWidth, canvasHeight);
   ctx.font = "24px Arial";
@@ -325,10 +354,10 @@ function endGame(number) {
   ctx.fillText("Congratulations!", 200, 250);
   ctx.fillText("You finished in time!", 200, 300);
   ctx.fillText("Study credits acquired: " + player.score, 200, 350);
-  ctx.fillText("GPA: " + (player.score / player.ka).toFixed(2), 200, 400);
+  ctx.fillText("GPA: " + (player.ka / player.courseNumber).toFixed(2), 200, 400);
   }
  else if (number == 1) {
-  ctx.fillText("Game over!", 200, 400);
+  ctx.fillText("Game over! You failed to get your Bachelors' degree.", 200, 400);
  }
 }
 
