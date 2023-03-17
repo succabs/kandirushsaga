@@ -65,6 +65,16 @@ let healthText;
 let lastFired = 0;
 let canShoot = true;
 
+function initializeGame() {
+  health = 32;
+  gpa = 0;
+  courseCount = 0;
+  courseNumbers = 0;
+  score = 0;
+  canShoot = true;
+  selvitysHealth = 3;
+  lastFired = 0;
+}
 // Menu creation function
 function createMenu() {
   // Add a black background
@@ -87,11 +97,7 @@ function createMenu() {
     .setOrigin(0.5);
   button.setInteractive();
   button.on("pointerdown", () => {
-    health = 32;
-    gpa = 0;
-    courseCount = 0;
-    courseNumbers = 0;
-    score = 0;
+    initializeGame();
     this.scene.start("main");
   });
 
@@ -100,11 +106,7 @@ function createMenu() {
   keyN.on(
     "down",
     function () {
-      health = 32;
-      gpa = 0;
-      courseCount = 0;
-      courseNumbers = 0;
-      score = 0;
+      initializeGame();
       this.scene.start("main");
     },
     this
@@ -112,7 +114,7 @@ function createMenu() {
 }
 
 function createGameOver() {
-  // Add text to tell the player how much of a failure he is in academic world
+  this.add.rectangle(0, 0, config.width, config.height, 0x000000).setOrigin(0);
   this.add
     .text(
       game.config.width / 2,
@@ -147,11 +149,7 @@ function createGameOver() {
   newGameButton.on(
     "pointerdown",
     function () {
-      health = 32;
-      gpa = 0;
-      courseCount = 0;
-      courseNumbers = 0;
-      score = 0;
+      initializeGame();
       this.scene.start("main");
     },
     this
@@ -178,11 +176,7 @@ function createGameOver() {
   keyN.on(
     "down",
     function () {
-      health = 32;
-      gpa = 0;
-      courseNumbers = 0;
-      courseCount = 0;
-      score = 0;
+      initializeGame();
       this.scene.start("main");
     },
     this
@@ -198,6 +192,7 @@ function createGameOver() {
   );
 }
 function createGameCompleted() {
+  this.add.rectangle(0, 0, config.width, config.height, 0x000000).setOrigin(0);
   // Display "Game Complete" text
   let text = this.add.text(400, 200, "Congratulations!", {
     fontSize: "32px",
@@ -231,11 +226,7 @@ function createGameCompleted() {
   newGameButton.setOrigin(0.5);
   newGameButton.setInteractive();
   newGameButton.on("pointerdown", () => {
-    health = 32;
-    gpa = 0;
-    courseCount = 0;
-    courseNumbers = 0;
-    score = 0;
+    initializeGame();
     this.scene.start("main");
   });
 
@@ -255,11 +246,7 @@ function createGameCompleted() {
   keyN.on(
     "down",
     function () {
-      health = 32;
-      gpa = 0;
-      courseNumbers = 0;
-      courseCount = 0;
-      score = 0;
+      initializeGame();
       this.scene.start("main");
     },
     this
