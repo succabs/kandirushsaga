@@ -41,10 +41,10 @@ MIT.
 
 # TODO
 
-- äänet (gaudeamus igitur taustalle loopilla)
+- äänet (gaudeamus igitur pelin läpäistessä, kelaääni selvityspyynnön tuhoutuessa)
 - lisää tapahtumia, koska opiskelijan elämä on tapahtumarikasta
-- webpack js juttu (yksi js-tiedosto pelin jakamiseen)
 - grafiikkaa
 - tutoriaali itse peliin
 - voittoruutuun lakitettu minna canth taustalle
-- ajastin, joka näyttää joka 10 sekunnin välein tapahtuvan tukikuukauksien menetyksen
+- ajastin, joka näyttää joka 10 sekunnin välein tapahtuvan tukikuukauden menetyksen
+- webpack js juttu (yksi js-tiedosto pelin jakamiseen)

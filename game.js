@@ -208,32 +208,34 @@ function createGameCompleted() {
   // Display "Game Complete" text
   let text = this.add.text(400, 200, "Congratulations!", {
     fontSize: "32px",
-    fill: "#000000",
+    fill: "#fff",
   });
   text.setOrigin(0.5);
   let text2 = this.add.text(400, 250, "You are now a bachelor!", {
     fontSize: "32px",
-    fill: "#000000",
+    fill: "#fff",
   });
   text2.setOrigin(0.5);
 
   // Display player score
   let scoreText = this.add.text(400, 300, "Opintopisteet: " + score, {
     fontSize: "32px",
-    fill: "#000000",
+    fill: "#fff",
   });
   scoreText.setOrigin(0.5);
   // Display player score
   let gpaText = this.add.text(400, 350, "Keskiarvo: " + gpa.toFixed(2), {
     fontSize: "32px",
-    fill: "#000000",
+    fill: "#fff",
   });
   gpaText.setOrigin(0.5);
+  this.gaudeamus = this.sound.add("gaudeamus");
+  this.gaudeamus.play();
 
   // Add "New Game" button
   let newGameButton = this.add.text(400, 400, "[N]ew Game", {
     fontSize: "32px",
-    fill: "#0000ff",
+    fill: "#fff",
   });
   newGameButton.setOrigin(0.5);
   newGameButton.setInteractive();
@@ -245,7 +247,7 @@ function createGameCompleted() {
   // Add "Main Menu" button
   let mainMenuButton = this.add.text(400, 450, "[M]ain Menu", {
     fontSize: "32px",
-    fill: "#0000ff",
+    fill: "#fff",
   });
   mainMenuButton.setOrigin(0.5);
   mainMenuButton.setInteractive();
@@ -292,6 +294,7 @@ function preload() {
   this.load.audio("explosion", "sounds/explosion.wav");
   this.load.audio("drink", "sounds/drink.wav");
   this.load.audio("warning", "sounds/warning.ogg");
+  this.load.audio("gaudeamus", "sounds/gaudeamus.m4a");
 
   this.load.spritesheet("kaboom", "images/kaboom.png", {
     frameWidth: 64,
@@ -500,7 +503,7 @@ function updateMain() {
     this.scene.stop("main");
     this.scene.start("gameover");
   }
-  if (score >= 180) {
+  if (score >= 1) {
     this.scene.stop("main");
     this.scene.start("gamecomplete");
   }
