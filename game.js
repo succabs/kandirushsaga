@@ -292,6 +292,7 @@ function preload() {
   this.load.audio("shoot", "sounds/shoot.wav");
   this.load.audio("explosion", "sounds/explosion.wav");
   this.load.audio("drink", "sounds/drink.wav");
+  this.load.audio("warning", "sounds/warning.ogg");
 
   this.load.spritesheet("kaboom", "images/kaboom.png", {
     frameWidth: 64,
@@ -430,12 +431,11 @@ function createMain() {
     callbackScope: this,
   });
 
-  // Shooting sound
+  // Add sounds
   this.shootSound = this.sound.add("shoot");
-  // Explosion sound
   this.explosionSound = this.sound.add("explosion");
-  // Drink sound
   this.drinkSound = this.sound.add("drink");
+  this.warningSound = this.sound.add("warning", { loop: true });
 }
 // Main game update function, logic, buttons
 function updateMain() {
@@ -643,7 +643,8 @@ function bulletHitSelvitys(bullet, selvitys) {
   if (selvitysHealth <= 0) {
     let kaboom = this.add
       .sprite(selvitys.x, selvitys.y, "kaboom")
-      .setScale(0.5);
+      .setScale(1.5);
+    this.explosionSound.play();
     kaboom.anims.play("kaboom");
     // Destroy bullet and enemy
     selvitys.disableBody(true, true);
@@ -671,6 +672,7 @@ function disablePlayer() {
   player.setTint(0xff0000); // Change the player's color to red to indicate they are disabled
   player.setVelocity(0, 0); // Stop the player's movement
   canShoot = false; // Set the canShoot variable to false to prevent the player from shooting
+  this.warningSound.play();
   // Set a timer to re-enable the player after 5 seconds
   // Create the flashing text
   let disabledText = this.add.text(400, 300, "MOODLEN KÄYTTÖKATKO", {
@@ -690,11 +692,12 @@ function disablePlayer() {
   });
 
   this.time.addEvent({
-    delay: 3000,
+    delay: 4000,
     callback: function () {
       player.setTint(0xffffff); // Reset the player's color
       canShoot = true; // Allow the player to shoot again
       disabledText.destroy();
+      this.warningSound.stop();
     },
     callbackScope: this,
   });

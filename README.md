@@ -42,12 +42,13 @@ MIT.
 # TODO
 
 - äänet (gaudeamus igitur taustalle loopilla)
-- power ups (muutakin kun kalja)
+- power ups (muutakin kun kalja ehkä, energiajuoma voisi nopeuttaa pelaajaa ja ammuksia)
+- intializeGame-funktio, jota voi kutsua newGame-napissa, asettaa kaikki arvot normaaleiksi
 - lisää tapahtumia, koska opiskelijan elämä on tapahtumarikasta
 - webpack js juttu (yksi js-tiedosto, helppo laittaa sivuille)
 - vaikeusasteen säätö
 - grafiikkaa
 - menut paremmiks
 - tutoriaali (paranna css ja tekstiä, laita kuvat selventämään)
-- moodlen käyttökatko: ei voi liikkua tai ampua 5 sekuntiin
+- voittoruutuun lakitettu minna canth taustalle
 - ajastin, joka näyttää joka 10 sekunnin välein tapahtuvan tukikuukauksien menetyksen
