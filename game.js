@@ -63,6 +63,7 @@ let gpaText;
 let scoreText;
 let healthText;
 let lastFired = 0;
+let canShoot = true;
 
 // Menu creation function
 function createMenu() {
@@ -279,14 +280,18 @@ function preload() {
   this.load.image("player", "images/playerhat.png");
   this.load.image("bullet", "images/bullet.png");
   this.load.image("beer", "images/beer.png");
-  this.load.image("plagiarism", "images/loading.png");
+  this.load.image("plagiarism", "images/plagiointi.png");
   this.load.image("selvitys", "images/selvitys.png");
-  this.load.image("safeArea", "images/safe.png");
+  this.load.image("safeArea", "images/selitys.png");
   this.load.image("enemy1", "images/1p.png");
   this.load.image("enemy2", "images/2p.png");
   this.load.image("enemy3", "images/3p.png");
   this.load.image("enemy4", "images/4p.png");
   this.load.image("enemy5", "images/5p.png");
+
+  this.load.audio("shoot", "sounds/shoot.wav");
+  this.load.audio("explosion", "sounds/explosion.wav");
+  this.load.audio("drink", "sounds/drink.wav");
 
   this.load.spritesheet("kaboom", "images/kaboom.png", {
     frameWidth: 64,
@@ -296,28 +301,25 @@ function preload() {
 
 // Main game creation function
 function createMain() {
+  // Create the background
   graphics = this.add.graphics();
   // Define the colors to use in the gradient
   var colors = [0x3498db, 0x5dade2, 0x85c1e9, 0xaed6f1, 0xd6eaf8];
-
   // Create the five gradient areas
   for (var i = 0; i < 5; i++) {
     // Calculate the color of the current area based on the index
     var color = colors[i];
-
     // Create the graphics object for the current area
     var area = this.add.graphics();
-
     // Set the fill color to the calculated color
     area.fillStyle(color);
-
     // Draw a rectangle for the current area at the top of the screen
     area.fillRect(0, i * 105, game.config.width, 105);
-
     // Add the graphics object to the scene
     this.add.existing(area);
   }
 
+  // Create the explosion animation
   this.anims.create({
     key: "kaboom",
     frames: this.anims.generateFrameNumbers("kaboom", { start: 0, end: 7 }),
@@ -420,26 +422,45 @@ function createMain() {
     loop: true,
     callback: loseHealth,
   });
+  // Moodlekatko
+  this.time.addEvent({
+    delay: Phaser.Math.Between(20000, 35000), // Random delay between 10 and 20 seconds
+    loop: true,
+    callback: disablePlayer,
+    callbackScope: this,
+  });
+
+  // Shooting sound
+  this.shootSound = this.sound.add("shoot");
+  // Explosion sound
+  this.explosionSound = this.sound.add("explosion");
+  // Drink sound
+  this.drinkSound = this.sound.add("drink");
 }
 // Main game update function, logic, buttons
 function updateMain() {
-  // Move player left and right
-  if (this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT).isDown) {
-    player.setVelocityX(-500);
-  } else if (
-    this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT).isDown
-  ) {
-    player.setVelocityX(500);
-  } else {
-    player.setVelocityX(0);
-  }
+  if (canShoot) {
+    // Move player left and right
+    if (
+      this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT).isDown
+    ) {
+      player.setVelocityX(-500);
+    } else if (
+      this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT).isDown
+    ) {
+      player.setVelocityX(500);
+    } else {
+      player.setVelocityX(0);
+    }
 
-  if (
-    this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE).isDown &&
-    this.time.now > lastFired + 300 // limit firing rate to once every 200ms
-  ) {
-    fireBullet();
-    lastFired = this.time.now;
+    if (
+      this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE).isDown &&
+      this.time.now > lastFired + 300 // limit firing rate to once every 200ms
+    ) {
+      this.shootSound.play();
+      fireBullet();
+      lastFired = this.time.now;
+    }
   }
   enemies.getChildren().forEach(function (enemy) {
     if (enemy.y - 20 >= this.game.canvas.height) {
@@ -493,11 +514,11 @@ function spawnPlagiarism() {
   let plagiarismY = -50;
   let plagiarismSpeed = 150;
   let plagiarism = plagiarisms.create(plagiarismX, plagiarismY, "plagiarism");
-  plagiarism.setDisplaySize(game.config.width * 2, plagiarism.height / 6);
+  plagiarism.setDisplaySize(game.config.width * 2, plagiarism.height);
   plagiarism.setVelocityY(plagiarismSpeed);
   let safeX = Phaser.Math.Between(0 + 40, config.width - 40);
   let safe = plagiarisms.create(safeX, plagiarismY + 2, "safeArea");
-  safe.setDisplaySize(game.config.width / 4, plagiarism.height / 6);
+  safe.setDisplaySize(game.config.width / 5, plagiarism.height);
   safe.setVelocityY(plagiarismSpeed);
 }
 
@@ -577,7 +598,7 @@ function bulletHitEnemy(bullet, enemy) {
 
   let kaboom = this.add.sprite(enemy.x, enemy.y, "kaboom").setScale(0.5);
   kaboom.anims.play("kaboom");
-
+  this.explosionSound.play();
   // Destroy bullet and enemy
   bullet.disableBody(true, true);
   enemy.disableBody(true, true);
@@ -598,7 +619,7 @@ function playerDrankBeer(player, beer) {
   // Decrease health
   health += 1;
   healthText.setText("Tukikuukaudet: " + health);
-
+  this.drinkSound.play();
   // Destroy enemy
   beer.disableBody(true, true);
 }
@@ -644,4 +665,37 @@ function playerHitSelvitys(player, selvitys) {
 function loseHealth() {
   health -= 1;
   healthText.setText("Tukikuukaudet: " + health);
+}
+
+function disablePlayer() {
+  player.setTint(0xff0000); // Change the player's color to red to indicate they are disabled
+  player.setVelocity(0, 0); // Stop the player's movement
+  canShoot = false; // Set the canShoot variable to false to prevent the player from shooting
+  // Set a timer to re-enable the player after 5 seconds
+  // Create the flashing text
+  let disabledText = this.add.text(400, 300, "MOODLEN KÄYTTÖKATKO", {
+    fontFamily: "Arial",
+    fontSize: 48,
+    color: "#ff0000",
+  });
+  disabledText.setOrigin(0.5);
+
+  // Make the text flash using a tween
+  this.tweens.add({
+    targets: disabledText,
+    alpha: 0,
+    duration: 500,
+    yoyo: true,
+    repeat: -1,
+  });
+
+  this.time.addEvent({
+    delay: 3000,
+    callback: function () {
+      player.setTint(0xffffff); // Reset the player's color
+      canShoot = true; // Allow the player to shoot again
+      disabledText.destroy();
+    },
+    callbackScope: this,
+  });
 }

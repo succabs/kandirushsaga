@@ -41,12 +41,13 @@ MIT.
 
 # TODO
 
-- äänet
+- äänet (gaudeamus igitur taustalle loopilla)
 - power ups (muutakin kun kalja)
+- lisää tapahtumia, koska opiskelijan elämä on tapahtumarikasta
 - webpack js juttu (yksi js-tiedosto, helppo laittaa sivuille)
 - vaikeusasteen säätö
 - grafiikkaa
 - menut paremmiks
-- tutoriaali (aluksi html:ään pelin viereen)
+- tutoriaali (paranna css ja tekstiä, laita kuvat selventämään)
 - moodlen käyttökatko: ei voi liikkua tai ampua 5 sekuntiin
 - ajastin, joka näyttää joka 10 sekunnin välein tapahtuvan tukikuukauksien menetyksen
