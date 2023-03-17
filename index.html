@@ -6,5 +6,79 @@
     <script src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
     <script src="game.js"></script>
   </head>
-  <body></body>
+  <style>
+    /* CSS styles for the container div */
+    html,
+    body {
+      display: flex;
+      flex-direction: row-reverse;
+      text-align: center;
+    }
+
+    h1,
+    h4 {
+      text-align: left;
+    }
+
+    p {
+      text-align: left;
+    }
+
+    /* CSS styles for the game canvas */
+    canvas {
+      border: 1px solid black;
+      max-width: 800px;
+      max-height: 600px;
+    }
+    .container {
+      margin-left: 20px;
+    }
+  </style>
+  <body>
+    <div class="container">
+      <h1>Kandi Rush Saga</h1>
+      <div class="instructions">
+        <h4>Instructions</h4>
+        <p>
+          The objective of the game is to get 180 student credits (opintopiste)
+          before you run out of student allowance months (opintotukikuukausi).
+        </p>
+        <p>Use left and right arrows to move, spacebar to shoot.</p>
+        <p>
+          Numbers are student credits that you have to shoot to get them. The
+          higher you shoot them, the better course number you get. That affects
+          your total GPA (Keskiarvo).
+        </p>
+        <p>Since beer is healthy, it gives you +1 student allowance months.</p>
+        <p>
+          Selvityspyyntö has 5 health. Shoot it five times and it disappears. If
+          it passes you or you get hit by it, you lose 25 student credits and 10
+          student allowance months.
+        </p>
+        <p>
+          You can't do anything about plagiointisyytös, but to pass it in the
+          safe area. If you get hit by it, you will lose the game.
+        </p>
+        <p>
+          Oh, and if the game wasn't hard enough already, you lose one student
+          allowance month every 10 seconds.
+        </p>
+      </div>
+      <div id="FAQ"></div>
+      <h4>FAQ</h4>
+      <h4>Why is it cluttered with so many things?</h4>
+
+      <p>Well, that happens in student life.</p>
+      <h4>How am I supposed to cope with that?</h4>
+      <p>
+        You are not. Getting a degree is hard. Deal with it. But unlike in real
+        life, this game lets you try again easily.
+      </p>
+      <h4>
+        What if I get both selvityspyyntö and plagiointisyytös at the same time?
+      </h4>
+      <p>That is harsh. See the other answers.</p>
+      <h4></h4>
+    </div>
+  </body>
 </html>

@@ -455,7 +455,12 @@ function updateMain() {
       // Decrease health of player
       health -= 10;
       healthText.setText("Tukikuukaudet: " + health);
-      score -= 25;
+      if (score <= 25) {
+        score = 0;
+      }
+      if (score > 25) {
+        score -= 25;
+      }
       scoreText.setText("Opintopisteet: " + score + "/180");
       enemy.y = 0;
       enemy.disableBody(true, true);
