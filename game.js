@@ -52,6 +52,8 @@ let enemies;
 let beers;
 let plagiarisms;
 let safeArea;
+let selvitys;
+let selvitysHealth = 3;
 let score = 0;
 let health = 0;
 let gpa = 0;
@@ -278,6 +280,7 @@ function preload() {
   this.load.image("bullet", "images/bullet.png");
   this.load.image("beer", "images/beer.png");
   this.load.image("plagiarism", "images/loading.png");
+  this.load.image("selvitys", "images/selvitys.png");
   this.load.image("safeArea", "images/safe.png");
   this.load.image("enemy1", "images/1p.png");
   this.load.image("enemy2", "images/2p.png");
@@ -358,6 +361,12 @@ function createMain() {
   // Add collisions between player and plagiarism groups
   this.physics.add.collider(player, plagiarisms, playerPlagiarized, null, this);
 
+  // Create plagiarism group
+  selvitys = this.physics.add.group();
+  // Add collisions between player and selvitys
+  this.physics.add.collider(player, selvitys, playerHitSelvitys, null, this);
+  this.physics.add.overlap(bullets, selvitys, bulletHitSelvitys, null, this);
+
   // Create score text
   scoreText = this.add.text(16, 16, "Opintopisteet: " + score + "/180", {
     fontSize: "16px",
@@ -383,21 +392,27 @@ function createMain() {
 
   // Create enemy timer
   this.time.addEvent({
-    delay: 2000,
+    delay: Phaser.Math.Between(2000, 3000),
     loop: true,
     callback: spawnEnemy,
   });
   // Create beer timer
   this.time.addEvent({
-    delay: 5000,
+    delay: Phaser.Math.Between(5000, 7000),
     loop: true,
     callback: spawnBeer,
   });
   // Create plagiarism accusation timer
   this.time.addEvent({
-    delay: 10000,
+    delay: Phaser.Math.Between(15000, 20000),
     loop: true,
     callback: spawnPlagiarism,
+  });
+  // Create selvitys tirme
+  this.time.addEvent({
+    delay: Phaser.Math.Between(25000, 30000),
+    loop: true,
+    callback: spawnSelvitys,
   });
   // Lose allowance month every 10 seconds
   this.time.addEvent({
@@ -431,7 +446,17 @@ function updateMain() {
       // Decrease health of player
       health--;
       healthText.setText("Tukikuukaudet: " + health);
-      // Kill enemy and play explosion animation
+      enemy.y = 0;
+      enemy.disableBody(true, true);
+    }
+  }, this);
+  selvitys.getChildren().forEach(function (enemy) {
+    if (enemy.y - 20 >= this.game.canvas.height) {
+      // Decrease health of player
+      health -= 10;
+      healthText.setText("Tukikuukaudet: " + health);
+      score -= 25;
+      scoreText.setText("Opintopisteet: " + score + "/180");
       enemy.y = 0;
       enemy.disableBody(true, true);
     }
@@ -469,6 +494,16 @@ function spawnPlagiarism() {
   let safe = plagiarisms.create(safeX, plagiarismY + 2, "safeArea");
   safe.setDisplaySize(game.config.width / 4, plagiarism.height / 6);
   safe.setVelocityY(plagiarismSpeed);
+}
+
+// Function to create and spawn selvitys
+function spawnSelvitys() {
+  let selvitysX = Phaser.Math.Between(0 + 40, config.width - 40);
+  let selvitysY = -50;
+  let selvitysSpeed = 180;
+  let selvitysP = selvitys.create(selvitysX, selvitysY, "selvitys");
+  selvitysP.setVelocityY(selvitysSpeed);
+  selvitysP.setScale(0.5, 0.5);
 }
 
 // Function to create and spawn enemies
@@ -571,6 +606,34 @@ function playerPlagiarized(player, object) {
   plagiarisms.getChildren().forEach(function (plagiarism) {
     plagiarism.disableBody(true, true);
   }, this);
+}
+
+// Function for bullet hitting an enemy
+function bulletHitSelvitys(bullet, selvitys) {
+  // Increase score
+  selvitysHealth -= 1;
+  console.log(selvitysHealth);
+  bullet.disableBody(true, true);
+  if (selvitysHealth <= 0) {
+    let kaboom = this.add
+      .sprite(selvitys.x, selvitys.y, "kaboom")
+      .setScale(0.5);
+    kaboom.anims.play("kaboom");
+    // Destroy bullet and enemy
+    selvitys.disableBody(true, true);
+    selvitysHealth = 5;
+  }
+}
+
+//Function for player touching enemy
+function playerHitSelvitys(player, selvitys) {
+  // Decrease health
+  health -= 10;
+  healthText.setText("Tukikuukaudet: " + health);
+  score -= 25;
+  scoreText.setText("Opintopisteet: " + score + "/180");
+  //Destroy enemy
+  selvitys.disableBody(true, true);
 }
 
 function loseHealth() {

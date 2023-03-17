@@ -20,7 +20,11 @@ Well, that happens in student life.
 
 ## How am I supposed to cope with that?
 
-You are not. Getting a degree is hard. Deal with it.
+You are not. Getting a degree is hard. Deal with it. But unlike in real life, this game lets you try again easily.
+
+## What if I get both selvityspyyntö and plagiointisyytös at the same time?
+
+That is harsh. See the other answers.
 
 # How to run it?
 
@@ -38,14 +42,11 @@ MIT.
 # TODO
 
 - äänet
-- selvityspyyntö
-- power ups
-- webpack js juttu
-- vaikeusaste
+- power ups (muutakin kun kalja)
+- webpack js juttu (yksi js-tiedosto, helppo laittaa sivuille)
+- vaikeusasteen säätö
 - grafiikkaa
 - menut paremmiks
-- menujen napit toimimaan
-- tutoriaali
+- tutoriaali (aluksi html:ään pelin viereen)
 - moodlen käyttökatko: ei voi liikkua tai ampua 5 sekuntiin
-- selvityspyyntö: pitää ampua 5 kertaa, muuten tuet menee nollaan ja häviää
-- ajastin, joka näyttää joka 10 sekunnin välein tapahtuvan tukikuukauksien menetyksetn
+- ajastin, joka näyttää joka 10 sekunnin välein tapahtuvan tukikuukauksien menetyksen
