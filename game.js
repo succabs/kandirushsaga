@@ -64,6 +64,10 @@ let scoreText;
 let healthText;
 let lastFired = 0;
 let canShoot = true;
+let timeText;
+let nextHealthLoss;
+let loadingBar;
+let progress;
 
 function initializeGame() {
   health = 32;
@@ -419,18 +423,31 @@ function createMain() {
     loop: true,
     callback: spawnSelvitys,
   });
-  // Lose allowance month every 10 seconds
-  this.time.addEvent({
-    delay: 10000,
-    loop: true,
-    callback: loseHealth,
-  });
   // Moodlekatko
   this.time.addEvent({
     delay: Phaser.Math.Between(45000, 60000), // Random delay between 10 and 20 seconds
     loop: true,
     callback: disablePlayer,
     callbackScope: this,
+  });
+
+  nextHealthLoss = 10000; // the time (in milliseconds) until the next health loss
+  // create the circular loading bar
+  loadingBar = this.add.graphics({
+    lineStyle: {
+      width: 3,
+      color: 0xffffff,
+    },
+  });
+
+  // Lose allowance month every 10 seconds
+  this.time.addEvent({
+    delay: 10000,
+    loop: true,
+    callback: function () {
+      loseHealth();
+      nextHealthLoss = 10000;
+    },
   });
 
   // Add sounds
@@ -441,6 +458,19 @@ function createMain() {
 }
 // Main game update function, logic, buttons
 function updateMain() {
+  nextHealthLoss -= this.game.loop.delta;
+  progress = nextHealthLoss / 10000;
+  loadingBar.clear();
+  loadingBar.beginPath();
+  loadingBar.arc(
+    775,
+    23,
+    8,
+    Phaser.Math.DegToRad(-90),
+    Phaser.Math.DegToRad(progress * 360 - 90),
+    false
+  );
+  loadingBar.strokePath();
   this.input.keyboard.on("keydown-M", function () {
     if (game.sound.mute) {
       game.sound.setMute(false);
@@ -503,7 +533,7 @@ function updateMain() {
     this.scene.stop("main");
     this.scene.start("gameover");
   }
-  if (score >= 1) {
+  if (score >= 180) {
     this.scene.stop("main");
     this.scene.start("gamecomplete");
   }
