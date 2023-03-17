@@ -100,22 +100,9 @@ function createMenu() {
     initializeGame();
     this.scene.start("main");
   });
-
-  // Add the options button
-  const optionsButton = this.add
-    .text(config.width / 2, 350, "[O]ptions", {
-      fontSize: "32px",
-      fill: "#fff",
-    })
-    .setOrigin(0.5);
-  optionsButton.setInteractive();
-  optionsButton.on("pointerdown", () => {
-    initializeGame();
-    this.scene.start("main");
-  });
   // Add the instructions button
   const instructionsButton = this.add
-    .text(config.width / 2, 400, "[I]nstructions", {
+    .text(config.width / 2, 350, "[I]nstructions", {
       fontSize: "32px",
       fill: "#fff",
     })
@@ -451,6 +438,14 @@ function createMain() {
 }
 // Main game update function, logic, buttons
 function updateMain() {
+  this.input.keyboard.on("keydown-M", function () {
+    if (game.sound.mute) {
+      game.sound.setMute(false);
+    } else {
+      // if the sound is not muted, mute it
+      game.sound.setMute(true);
+    }
+  });
   if (canShoot) {
     // Move player left and right
     if (

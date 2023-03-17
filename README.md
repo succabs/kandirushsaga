@@ -4,9 +4,9 @@ A Javascript canvas 2D top-down shooter made with Phaser.
 
 This github repo is source code for a dead serious Javascript game in which you have to get 180 academic credits before you run out of student allowance months. You get credits by shooting at them. You will lose allowance months if you crash into selvityspyyntö or similar unfortunate event or fail to shoot them. Be wary of plagiointisyytös, it will make you lose instantly!
 
-Move with left and right arrows, shoot with space. Works only on desktop.
+Instructions for the game are in the html file.
 
-The graphics of the game are only temporary placeholders, got most of them from https://opengameart.org/ and will update them once I get the game logic to work.
+The graphics of the game are only temporary placeholders, got most of them from https://opengameart.org/ or made them myself with pain. Will update them once I get the game logic to work.
 
 # Why was this made?
 
@@ -42,12 +42,9 @@ MIT.
 # TODO
 
 - äänet (gaudeamus igitur taustalle loopilla)
-- intializeGame-funktio, jota voi kutsua newGame-napissa, asettaa kaikki arvot normaaleiksi
 - lisää tapahtumia, koska opiskelijan elämä on tapahtumarikasta
-- webpack js juttu (yksi js-tiedosto, helppo laittaa sivuille)
-- vaikeusasteen säätö
+- webpack js juttu (yksi js-tiedosto pelin jakamiseen)
 - grafiikkaa
-- menut paremmiks
-- tutoriaali (paranna css ja tekstiä, laita kuvat selventämään)
+- tutoriaali itse peliin
 - voittoruutuun lakitettu minna canth taustalle
 - ajastin, joka näyttää joka 10 sekunnin välein tapahtuvan tukikuukauksien menetyksen
