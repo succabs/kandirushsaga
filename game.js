@@ -101,6 +101,31 @@ function createMenu() {
     this.scene.start("main");
   });
 
+  // Add the options button
+  const optionsButton = this.add
+    .text(config.width / 2, 350, "[O]ptions", {
+      fontSize: "32px",
+      fill: "#fff",
+    })
+    .setOrigin(0.5);
+  optionsButton.setInteractive();
+  optionsButton.on("pointerdown", () => {
+    initializeGame();
+    this.scene.start("main");
+  });
+  // Add the instructions button
+  const instructionsButton = this.add
+    .text(config.width / 2, 400, "[I]nstructions", {
+      fontSize: "32px",
+      fill: "#fff",
+    })
+    .setOrigin(0.5);
+  instructionsButton.setInteractive();
+  instructionsButton.on("pointerdown", () => {
+    initializeGame();
+    this.scene.start("main");
+  });
+
   // Add keyboard input
   const keyN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N);
   keyN.on(
@@ -412,7 +437,7 @@ function createMain() {
   });
   // Moodlekatko
   this.time.addEvent({
-    delay: Phaser.Math.Between(20000, 35000), // Random delay between 10 and 20 seconds
+    delay: Phaser.Math.Between(45000, 60000), // Random delay between 10 and 20 seconds
     loop: true,
     callback: disablePlayer,
     callbackScope: this,
@@ -471,6 +496,7 @@ function updateMain() {
       }
       scoreText.setText("Opintopisteet: " + score + "/180");
       enemy.y = 0;
+      selvitysHealth = 5;
       enemy.disableBody(true, true);
     }
   }, this);
@@ -679,7 +705,7 @@ function disablePlayer() {
   });
 
   this.time.addEvent({
-    delay: 4000,
+    delay: 3500,
     callback: function () {
       player.setTint(0xffffff); // Reset the player's color
       canShoot = true; // Allow the player to shoot again
