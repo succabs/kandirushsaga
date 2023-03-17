@@ -12,6 +12,16 @@ The graphics of the game are only temporary placeholders, got most of them from 
 
 To execute a fun idea and learn Javascript and Phaser.
 
+# FAQ
+
+## Why is it cluttered with so many things?
+
+Well, that happens in student life.
+
+## How am I supposed to cope with that?
+
+You are not. Getting a degree is hard. Deal with it.
+
 # How to run it?
 
 1. Clone repository
@@ -38,3 +48,4 @@ MIT.
 - tutoriaali
 - moodlen käyttökatko: ei voi liikkua tai ampua 5 sekuntiin
 - selvityspyyntö: pitää ampua 5 kertaa, muuten tuet menee nollaan ja häviää
+- ajastin, joka näyttää joka 10 sekunnin välein tapahtuvan tukikuukauksien menetyksetn

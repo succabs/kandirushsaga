@@ -77,19 +77,35 @@ function createMenu() {
 
   // Add the new game button
   const button = this.add
-    .text(config.width / 2, 300, "New Game", {
+    .text(config.width / 2, 300, "[N]ew Game", {
       fontSize: "32px",
       fill: "#fff",
     })
     .setOrigin(0.5);
   button.setInteractive();
   button.on("pointerdown", () => {
-    health = 2;
+    health = 32;
     gpa = 0;
     courseCount = 0;
+    courseNumbers = 0;
     score = 0;
     this.scene.start("main");
   });
+
+  // Add keyboard input
+  const keyN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N);
+  keyN.on(
+    "down",
+    function () {
+      health = 32;
+      gpa = 0;
+      courseCount = 0;
+      courseNumbers = 0;
+      score = 0;
+      this.scene.start("main");
+    },
+    this
+  );
 }
 
 function createGameOver() {
@@ -128,6 +144,11 @@ function createGameOver() {
   newGameButton.on(
     "pointerdown",
     function () {
+      health = 32;
+      gpa = 0;
+      courseCount = 0;
+      courseNumbers = 0;
+      score = 0;
       this.scene.start("main");
     },
     this
@@ -154,6 +175,11 @@ function createGameOver() {
   keyN.on(
     "down",
     function () {
+      health = 32;
+      gpa = 0;
+      courseNumbers = 0;
+      courseCount = 0;
+      score = 0;
       this.scene.start("main");
     },
     this
@@ -195,18 +221,23 @@ function createGameCompleted() {
   gpaText.setOrigin(0.5);
 
   // Add "New Game" button
-  let newGameButton = this.add.text(400, 400, "New Game", {
+  let newGameButton = this.add.text(400, 400, "[N]ew Game", {
     fontSize: "32px",
     fill: "#0000ff",
   });
   newGameButton.setOrigin(0.5);
   newGameButton.setInteractive();
   newGameButton.on("pointerdown", () => {
+    health = 32;
+    gpa = 0;
+    courseCount = 0;
+    courseNumbers = 0;
+    score = 0;
     this.scene.start("main");
   });
 
   // Add "Main Menu" button
-  let mainMenuButton = this.add.text(400, 450, "Main Menu", {
+  let mainMenuButton = this.add.text(400, 450, "[M]ain Menu", {
     fontSize: "32px",
     fill: "#0000ff",
   });
@@ -215,6 +246,30 @@ function createGameCompleted() {
   mainMenuButton.on("pointerdown", () => {
     this.scene.start("menu");
   });
+
+  // Add keyboard input
+  const keyN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N);
+  keyN.on(
+    "down",
+    function () {
+      health = 32;
+      gpa = 0;
+      courseNumbers = 0;
+      courseCount = 0;
+      score = 0;
+      this.scene.start("main");
+    },
+    this
+  );
+
+  const keyM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
+  keyM.on(
+    "down",
+    function () {
+      this.scene.start("menu");
+    },
+    this
+  );
 }
 
 // preload the game assets
@@ -328,21 +383,27 @@ function createMain() {
 
   // Create enemy timer
   this.time.addEvent({
-    delay: 10000,
+    delay: 2000,
     loop: true,
     callback: spawnEnemy,
   });
   // Create beer timer
   this.time.addEvent({
-    delay: 10000,
+    delay: 5000,
     loop: true,
     callback: spawnBeer,
   });
   // Create plagiarism accusation timer
   this.time.addEvent({
-    delay: 1000,
+    delay: 10000,
     loop: true,
     callback: spawnPlagiarism,
+  });
+  // Lose allowance month every 10 seconds
+  this.time.addEvent({
+    delay: 10000,
+    loop: true,
+    callback: loseHealth,
   });
 }
 // Main game update function, logic, buttons
@@ -380,7 +441,7 @@ function updateMain() {
     this.scene.stop("main");
     this.scene.start("gameover");
   }
-  if (score >= 5) {
+  if (score >= 180) {
     this.scene.stop("main");
     this.scene.start("gamecomplete");
   }
@@ -400,7 +461,7 @@ function spawnBeer() {
 function spawnPlagiarism() {
   let plagiarismX = 0;
   let plagiarismY = -50;
-  let plagiarismSpeed = 250;
+  let plagiarismSpeed = 150;
   let plagiarism = plagiarisms.create(plagiarismX, plagiarismY, "plagiarism");
   plagiarism.setDisplaySize(game.config.width * 2, plagiarism.height / 6);
   plagiarism.setVelocityY(plagiarismSpeed);
@@ -495,7 +556,7 @@ function playerHitEnemy(player, enemy) {
 //Function for player touching beer
 function playerDrankBeer(player, beer) {
   // Decrease health
-  health += 3;
+  health += 1;
   healthText.setText("Tukikuukaudet: " + health);
 
   // Destroy enemy
@@ -504,13 +565,15 @@ function playerDrankBeer(player, beer) {
 
 //Function for player touching plagiarism accusation
 function playerPlagiarized(player, object) {
-  if (object.texture.key === "safeArea") {
-    health += 1;
-    healthText.setText("Tukikuukaudet: " + health);
-  } else {
+  if (object.texture.key !== "safeArea") {
     health = 0;
   }
   plagiarisms.getChildren().forEach(function (plagiarism) {
     plagiarism.disableBody(true, true);
   }, this);
+}
+
+function loseHealth() {
+  health -= 1;
+  healthText.setText("Tukikuukaudet: " + health);
 }
