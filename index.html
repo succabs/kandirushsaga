@@ -3,37 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <title>Kandi Rush Saga</title>
+    <link rel="stylesheet" href="styles.css" />
     <script src="//cdn.jsdelivr.net/npm/phaser@3.55.2/dist/phaser.js"></script>
     <script src="game.js"></script>
   </head>
-  <style>
-    /* CSS styles for the container div */
-    html,
-    body {
-      display: flex;
-      flex-direction: row-reverse;
-      text-align: center;
-    }
-
-    h1,
-    h4 {
-      text-align: left;
-    }
-
-    p {
-      text-align: left;
-    }
-
-    /* CSS styles for the game canvas */
-    canvas {
-      border: 1px solid black;
-      max-width: 800px;
-      max-height: 600px;
-    }
-    .container {
-      margin-left: 20px;
-    }
-  </style>
   <body>
     <div class="container">
       <h1>Kandi Rush Saga</h1>
@@ -44,24 +17,39 @@
           before you run out of student allowance months (opintotukikuukausi).
         </p>
         <p>Use left and right arrows to move, spacebar to shoot.</p>
-        <p>
-          Numbers are student credits that you have to shoot to get them. The
-          higher you shoot them, the better course number you get. That affects
-          your total GPA (Keskiarvo).
-        </p>
-        <p>Since beer is healthy, it gives you +1 student allowance months.</p>
-        <p>
-          Selvityspyyntö has 5 health. Shoot it five times and it disappears. If
-          it passes you or you get hit by it, you lose 25 student credits and 10
-          student allowance months.
-        </p>
-        <p>
-          You can't do anything about plagiointisyytös, but to pass it in the
-          safe area. If you get hit by it, you will lose the game.
-        </p>
+        <div class="instructionSections">
+          <img src="images/3p.png" alt="Example of student credit" />
+          <p>
+            Numbers are student credits that you have to shoot to get them. The
+            higher you shoot them, the better course number you get. That
+            affects your total GPA (Keskiarvo).
+          </p>
+        </div>
+        <div class="instructionSections">
+          <img src="images/beer.png" alt="Beer" />
+          <p>
+            Since beer is healthy, it gives you +1 student allowance months.
+          </p>
+        </div>
+        <div class="instructionSections">
+          <img src="images/selvitys.png" alt="Selvityspyyntö" />
+          <p>
+            Selvityspyyntö has 5 health. Shoot it five times and it disappears.
+            If it passes you or you get hit by it, you lose 25 student credits
+            and 10 student allowance months.
+          </p>
+        </div>
+        <div class="instructionSections">
+          <img src="images/plagiointi.png" alt="Plagiointsyytös" />
+          <p>
+            You can't do anything about plagiointisyytös, but to pass it in the
+            safe area somewhere inside it. If you get hit by it, you will lose
+            the game.
+          </p>
+        </div>
         <p>
           Moodlen käyttökatko can hit you anytime. During that, you can't move
-          or shoot.
+          or shoot for 4 seconds.
         </p>
         <p>
           Oh, and if the game wasn't hard enough already, you lose one student

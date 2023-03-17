@@ -42,7 +42,6 @@ MIT.
 # TODO
 
 - äänet (gaudeamus igitur taustalle loopilla)
-- power ups (muutakin kun kalja ehkä, energiajuoma voisi nopeuttaa pelaajaa ja ammuksia)
 - intializeGame-funktio, jota voi kutsua newGame-napissa, asettaa kaikki arvot normaaleiksi
 - lisää tapahtumia, koska opiskelijan elämä on tapahtumarikasta
 - webpack js juttu (yksi js-tiedosto, helppo laittaa sivuille)

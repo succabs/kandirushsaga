@@ -1,0 +1,43 @@
+html,
+body {
+  display: flex;
+  flex-direction: row-reverse;
+  text-align: center;
+}
+
+h1,
+h4 {
+  text-align: left;
+}
+
+p {
+  text-align: left;
+}
+
+/* CSS styles for the game canvas */
+canvas {
+  border: 1px solid black;
+  max-width: 800px;
+  max-height: 600px;
+}
+
+.instructions {
+  display: flex;
+  flex-direction: column;
+  margin: 5px;
+}
+.instructionSections {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.instructions img {
+  width: 64px;
+  max-width: 64px;
+  margin: 5px;
+}
+
+.instructionSections p {
+  flex: 1 1 auto;
+}
