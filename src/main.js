@@ -38,13 +38,13 @@ const InstructionScene = {
       .setOrigin(0);
     // Add instructions texts
     this.add
-      .text(config.width / 2, 50, "Instructions", {
+      .text(config.width / 2, 50, "Ohjeet", {
         fontSize: "48px",
         fill: "#fff",
       })
       .setOrigin(0.5);
     this.add
-      .text(config.width / 2, 100, "Use left and right arrows to move.", {
+      .text(config.width / 2, 100, "Liikkuminen: vasen/oikea nuoli.", {
         fontSize: "16px",
         fill: "#fff",
       })
@@ -53,7 +53,7 @@ const InstructionScene = {
       .text(
         config.width / 2,
         120,
-        "Spacebar to shoot. M to mute/unmute audio.",
+        "Ammu välilyönnillä. Äänet pois/päälle M:stä.",
         {
           fontSize: "16px",
           fill: "#fff",
@@ -61,7 +61,7 @@ const InstructionScene = {
       )
       .setOrigin(0.5);
     this.add
-      .text(config.width / 2, 160, "Numbers are student points.", {
+      .text(config.width / 2, 160, "Numerot ovat opintopisteitä.", {
         fontSize: "16px",
         fill: "#fff",
       })
@@ -70,7 +70,7 @@ const InstructionScene = {
       .text(
         config.width / 2,
         180,
-        "The higher you shoot them, the more points you get.",
+        "Mitä korkeammalla ammut ne, sitä paremman kurssiarvosanan saat.",
         {
           fontSize: "16px",
           fill: "#fff",
@@ -83,7 +83,7 @@ const InstructionScene = {
       .text(
         config.width / 2,
         220,
-        "Since beer is healthy, it gives you 1 student allowance month.",
+        "Koska olut on terveellistä, siitä saa lisää tukikuukausia.",
         {
           fontSize: "16px",
           fill: "#fff",
@@ -96,7 +96,7 @@ const InstructionScene = {
       .text(
         config.width / 2,
         260,
-        "Shoot selvityspyyntö five times and it disappears.",
+        "Ammu selvityspyyntöä viisi kertaa, ja se katoaa.",
         {
           fontSize: "16px",
           fill: "#fff",
@@ -107,7 +107,7 @@ const InstructionScene = {
       .text(
         config.width / 2,
         280,
-        "Don't let it past you and don't get hit by it.",
+        "Älä osu siihen tai anna sen lipua ohitsesi.",
         {
           fontSize: "16px",
           fill: "#fff",
@@ -118,7 +118,7 @@ const InstructionScene = {
       .text(
         config.width / 2,
         300,
-        "If you do, you lose 25 student credits and 10 allowance months.",
+        "Jos näin käy, menetät 25 opintopistettä ja 10 tukikuukautta.",
         {
           fontSize: "16px",
           fill: "#fff",
@@ -129,7 +129,7 @@ const InstructionScene = {
       .text(
         config.width / 2,
         340,
-        "You can do nothing about plagiointisyytös.",
+        "Plagiointisyytökselle et voi tehdä mitään.",
         {
           fontSize: "16px",
           fill: "#fff",
@@ -140,7 +140,7 @@ const InstructionScene = {
       .text(
         config.width / 2,
         360,
-        "Well, you can pass it in the safe pink area somewhere inside it.",
+        "Voit ainoastaan ohittaa sen osumalla pinkkiin alueeseen.",
         {
           fontSize: "16px",
           fill: "#fff",
@@ -151,7 +151,7 @@ const InstructionScene = {
       .text(
         config.width / 2,
         380,
-        "If you get hit by it, you will lose the game.",
+        "Jos osut plagiointisyytökseen, tutkielman tavoittelu on ohi.",
         {
           fontSize: "16px",
           fill: "#fff",
@@ -159,16 +159,21 @@ const InstructionScene = {
       )
       .setOrigin(0.5);
     this.add
-      .text(config.width / 2, 420, "Moodlen käyttökatko can hit you anytime.", {
-        fontSize: "16px",
-        fill: "#fff",
-      })
+      .text(
+        config.width / 2,
+        420,
+        "Moodlen käyttökatko voi tapahtua milloin vain.",
+        {
+          fontSize: "16px",
+          fill: "#fff",
+        }
+      )
       .setOrigin(0.5);
     this.add
       .text(
         config.width / 2,
         440,
-        "During that, you can't move or shoot for 4 seconds.",
+        "Sen aikana et voi liikkua tai ampua neljään sekuntiin.",
         {
           fontSize: "16px",
           fill: "#fff",
@@ -179,7 +184,7 @@ const InstructionScene = {
       .text(
         config.width / 2,
         480,
-        "Oh, and if the game wasn't hard enough already..",
+        "Ja jos elämä ei ollut vielä tarpeeksi vaikeaa..",
         {
           fontSize: "16px",
           fill: "#fff",
@@ -190,7 +195,7 @@ const InstructionScene = {
       .text(
         config.width / 2,
         500,
-        ".. you lose one student allowance month every 10 seconds.",
+        "..menetät tukikuukauden joka 10. sekunti.",
         {
           fontSize: "16px",
           fill: "#fff",
@@ -200,7 +205,7 @@ const InstructionScene = {
 
     // Add back button
     const backButton = this.add
-      .text(config.width / 2, 540, "[B]ack", {
+      .text(config.width / 2, 540, "[T]akaisin", {
         fontSize: "32px",
         fill: "#fff",
       })
@@ -211,8 +216,8 @@ const InstructionScene = {
       this.scene.start("menu");
     });
     // Add keyboard input
-    const keyB = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.B);
-    keyB.on(
+    const keyT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.T);
+    keyT.on(
       "down",
       function () {
         initializeGame();
@@ -228,7 +233,7 @@ let config = {
   type: Phaser.AUTO,
   width: 800,
   height: 600,
-  parent: 'thegame',
+  parent: "thegame",
   physics: {
     default: "arcade",
     arcade: {
@@ -298,7 +303,7 @@ function createMenu() {
 
   // Add the new game button
   const button = this.add
-    .text(config.width / 2, 490, "[N]ew Game", {
+    .text(config.width / 2, 490, "[U]usi peli", {
       fontSize: "32px",
       fill: "#fff",
     })
@@ -310,7 +315,7 @@ function createMenu() {
   });
   // Add the instructions button
   const instructionsButton = this.add
-    .text(config.width / 2, 540, "[I]nstructions", {
+    .text(config.width / 2, 540, "[O]hjeet", {
       fontSize: "32px",
       fill: "#fff",
     })
@@ -322,8 +327,8 @@ function createMenu() {
   });
 
   // Add keyboard input
-  const keyN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N);
-  keyN.on(
+  const keyU = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.U);
+  keyU.on(
     "down",
     function () {
       initializeGame();
@@ -333,8 +338,8 @@ function createMenu() {
   );
 
   // Add keyboard input
-  const keyI = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I);
-  keyI.on(
+  const keyO = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.O);
+  keyO.on(
     "down",
     function () {
       initializeGame();
@@ -350,7 +355,7 @@ function createGameOver() {
     .text(
       game.config.width / 2,
       game.config.height / 2,
-      "You failed to get your Bachelors' degree.",
+      "Et saanut kandidaatin tutkintoa.",
       {
         fontSize: "24px",
         fill: "#fff",
@@ -361,7 +366,7 @@ function createGameOver() {
     .text(
       game.config.width / 2,
       game.config.height / 2 + 50,
-      "Off to Kela you go.",
+      "Mene Kelaan suoraan kulkematta lähtöruudun kautta.",
       {
         fontSize: "24px",
         fill: "#fff",
@@ -371,7 +376,7 @@ function createGameOver() {
 
   // Add button for new game
   const newGameButton = this.add
-    .text(game.config.width / 2, 490, "[N]ew Game", {
+    .text(game.config.width / 2, 490, "[U]usi peli", {
       fontSize: "36px",
       fill: "#fff",
     })
@@ -388,7 +393,7 @@ function createGameOver() {
 
   // Add button for main menu
   const mainMenuButton = this.add
-    .text(game.config.width / 2, 540, "[M]ain Menu", {
+    .text(game.config.width / 2, 540, "[P]äävalikko", {
       fontSize: "36px",
       fill: "#fff",
     })
@@ -403,8 +408,8 @@ function createGameOver() {
   );
 
   // Add keyboard input
-  const keyN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N);
-  keyN.on(
+  const keyU = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.U);
+  keyU.on(
     "down",
     function () {
       initializeGame();
@@ -413,8 +418,8 @@ function createGameOver() {
     this
   );
 
-  const keyM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
-  keyM.on(
+  const keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+  keyP.on(
     "down",
     function () {
       this.scene.start("menu");
@@ -425,12 +430,12 @@ function createGameOver() {
 function createGameCompleted() {
   this.add.rectangle(0, 0, config.width, config.height, 0x000000).setOrigin(0);
   // Display "Game Complete" text
-  let text = this.add.text(400, 200, "Congratulations!", {
+  let text = this.add.text(400, 200, "Onnittelut!", {
     fontSize: "32px",
     fill: "#fff",
   });
   text.setOrigin(0.5);
-  let text2 = this.add.text(400, 250, "You are now a bachelor!", {
+  let text2 = this.add.text(400, 250, "Olet nyt kandi!", {
     fontSize: "32px",
     fill: "#fff",
   });
@@ -452,7 +457,7 @@ function createGameCompleted() {
   this.gaudeamus.play();
 
   // Add "New Game" button
-  let newGameButton = this.add.text(400, 400, "[N]ew Game", {
+  let newGameButton = this.add.text(400, 400, "[U]usi peli", {
     fontSize: "32px",
     fill: "#fff",
   });
@@ -464,7 +469,7 @@ function createGameCompleted() {
   });
 
   // Add "Main Menu" button
-  let mainMenuButton = this.add.text(400, 450, "[M]ain Menu", {
+  let mainMenuButton = this.add.text(400, 450, "[P]äävalikko", {
     fontSize: "32px",
     fill: "#fff",
   });
@@ -475,8 +480,8 @@ function createGameCompleted() {
   });
 
   // Add keyboard input
-  const keyN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.N);
-  keyN.on(
+  const keyU = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.U);
+  keyU.on(
     "down",
     function () {
       initializeGame();
@@ -485,8 +490,8 @@ function createGameCompleted() {
     this
   );
 
-  const keyM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
-  keyM.on(
+  const keyP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.P);
+  keyP.on(
     "down",
     function () {
       this.scene.start("menu");
@@ -678,7 +683,7 @@ function createMain() {
   this.shootSound = this.sound.add("shoot");
   this.explosionSound = this.sound.add("explosion");
   this.drinkSound = this.sound.add("drink");
-  this.warningSound = this.sound.add("warning", { loop: true });
+  this.warningSound = this.sound.add("warning");
 }
 // Main game update function, logic, buttons
 function updateMain() {

@@ -37,6 +37,10 @@ That is harsh. See the other answers.
 
 MIT.
 
+# Known problems
+
+For some reason, the development server does not work with safari on mac (at least that is the case with me). It gives error from one sound (maybe it's the .ogg format?). Nevertheless, with Chrome it works. Did not have any problems with Windows or Linux.
+
 # TODO
 
 - äänet (gaudeamus igitur pelin läpäistessä, kelaääni selvityspyynnön tuhoutuessa)
