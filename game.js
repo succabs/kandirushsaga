@@ -26,6 +26,202 @@ const GameCompleteScene = {
   create: createGameCompleted,
 };
 
+// Define the instructions scene
+const InstructionScene = {
+  key: "instructions",
+  preload: preloadInstructions,
+  create: function () {
+    // Add background image
+    this.add
+      .rectangle(0, 0, config.width, config.height, 0x000000)
+      .setOrigin(0);
+    // Add instructions texts
+    this.add
+      .text(config.width / 2, 50, "Instructions", {
+        fontSize: "48px",
+        fill: "#fff",
+      })
+      .setOrigin(0.5);
+    this.add
+      .text(config.width / 2, 100, "Use left and right arrows to move.", {
+        fontSize: "16px",
+        fill: "#fff",
+      })
+      .setOrigin(0.5);
+    this.add
+      .text(
+        config.width / 2,
+        120,
+        "Spacebar to shoot. M to mute/unmute audio.",
+        {
+          fontSize: "16px",
+          fill: "#fff",
+        }
+      )
+      .setOrigin(0.5);
+    this.add
+      .text(config.width / 2, 160, "Numbers are student points.", {
+        fontSize: "16px",
+        fill: "#fff",
+      })
+      .setOrigin(0.5);
+    this.add
+      .text(
+        config.width / 2,
+        180,
+        "The higher you shoot them, the more points you get.",
+        {
+          fontSize: "16px",
+          fill: "#fff",
+        }
+      )
+      .setOrigin(0.5);
+    numberPicture = this.add.image(35, 35, "enemy3").setScale(0.8);
+    this.add.line(70, 65, 60, 30, 180, 150, 0x6666ff);
+    this.add
+      .text(
+        config.width / 2,
+        220,
+        "Since beer is healthy, it gives you 1 student allowance month.",
+        {
+          fontSize: "16px",
+          fill: "#fff",
+        }
+      )
+      .setOrigin(0.5);
+    beerPicture = this.add.image(30, 100, "beer").setScale(0.1);
+    this.add.line(50, 165, 40, 0, 110, 100, 0x6666ff);
+    this.add
+      .text(
+        config.width / 2,
+        260,
+        "Shoot selvityspyyntö five times and it disappears.",
+        {
+          fontSize: "16px",
+          fill: "#fff",
+        }
+      )
+      .setOrigin(0.5);
+    this.add
+      .text(
+        config.width / 2,
+        280,
+        "Don't let it past you and don't get hit by it.",
+        {
+          fontSize: "16px",
+          fill: "#fff",
+        }
+      )
+      .setOrigin(0.5);
+    this.add
+      .text(
+        config.width / 2,
+        300,
+        "If you do, you lose 25 student credits and 10 allowance months.",
+        {
+          fontSize: "16px",
+          fill: "#fff",
+        }
+      )
+      .setOrigin(0.5);
+    this.add
+      .text(
+        config.width / 2,
+        340,
+        "You can do nothing about plagiointisyytös.",
+        {
+          fontSize: "16px",
+          fill: "#fff",
+        }
+      )
+      .setOrigin(0.5);
+    this.add
+      .text(
+        config.width / 2,
+        360,
+        "Well, you can pass it in the safe pink area somewhere inside it.",
+        {
+          fontSize: "16px",
+          fill: "#fff",
+        }
+      )
+      .setOrigin(0.5);
+    this.add
+      .text(
+        config.width / 2,
+        380,
+        "If you get hit by it, you will lose the game.",
+        {
+          fontSize: "16px",
+          fill: "#fff",
+        }
+      )
+      .setOrigin(0.5);
+    this.add
+      .text(config.width / 2, 420, "Moodlen käyttökatko can hit you anytime.", {
+        fontSize: "16px",
+        fill: "#fff",
+      })
+      .setOrigin(0.5);
+    this.add
+      .text(
+        config.width / 2,
+        440,
+        "During that, you can't move or shoot for 4 seconds.",
+        {
+          fontSize: "16px",
+          fill: "#fff",
+        }
+      )
+      .setOrigin(0.5);
+    this.add
+      .text(
+        config.width / 2,
+        480,
+        "Oh, and if the game wasn't hard enough already..",
+        {
+          fontSize: "16px",
+          fill: "#fff",
+        }
+      )
+      .setOrigin(0.5);
+    this.add
+      .text(
+        config.width / 2,
+        500,
+        ".. you lose one student allowance month every 10 seconds.",
+        {
+          fontSize: "16px",
+          fill: "#fff",
+        }
+      )
+      .setOrigin(0.5);
+
+    // Add back button
+    const backButton = this.add
+      .text(config.width / 2, 540, "[B]ack", {
+        fontSize: "32px",
+        fill: "#fff",
+      })
+      .setOrigin(0.5);
+
+    backButton.setInteractive();
+    backButton.on("pointerdown", () => {
+      this.scene.start("menu");
+    });
+    // Add keyboard input
+    const keyB = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.B);
+    keyB.on(
+      "down",
+      function () {
+        initializeGame();
+        this.scene.start("menu");
+      },
+      this
+    );
+  },
+};
+
 // Configuring the game
 let config = {
   type: Phaser.AUTO,
@@ -39,7 +235,13 @@ let config = {
     },
   },
   backgroundColor: "0x5C5C5C",
-  scene: [MenuScene, MainScene, GameOverScene, GameCompleteScene],
+  scene: [
+    MenuScene,
+    MainScene,
+    GameOverScene,
+    GameCompleteScene,
+    InstructionScene,
+  ],
 };
 
 let game = new Phaser.Game(config);
@@ -53,7 +255,7 @@ let beers;
 let plagiarisms;
 let safeArea;
 let selvitys;
-let selvitysHealth = 3;
+let selvitysHealth = 4;
 let score = 0;
 let health = 0;
 let gpa = 0;
@@ -64,7 +266,6 @@ let scoreText;
 let healthText;
 let lastFired = 0;
 let canShoot = true;
-let timeText;
 let nextHealthLoss;
 let loadingBar;
 let progress;
@@ -76,7 +277,7 @@ function initializeGame() {
   courseNumbers = 0;
   score = 0;
   canShoot = true;
-  selvitysHealth = 3;
+  selvitysHealth = 4;
   lastFired = 0;
 }
 // Menu creation function
@@ -94,7 +295,7 @@ function createMenu() {
 
   // Add the new game button
   const button = this.add
-    .text(config.width / 2, 300, "[N]ew Game", {
+    .text(config.width / 2, 490, "[N]ew Game", {
       fontSize: "32px",
       fill: "#fff",
     })
@@ -106,7 +307,7 @@ function createMenu() {
   });
   // Add the instructions button
   const instructionsButton = this.add
-    .text(config.width / 2, 350, "[I]nstructions", {
+    .text(config.width / 2, 540, "[I]nstructions", {
       fontSize: "32px",
       fill: "#fff",
     })
@@ -114,7 +315,7 @@ function createMenu() {
   instructionsButton.setInteractive();
   instructionsButton.on("pointerdown", () => {
     initializeGame();
-    this.scene.start("main");
+    this.scene.start("instructions");
   });
 
   // Add keyboard input
@@ -124,6 +325,17 @@ function createMenu() {
     function () {
       initializeGame();
       this.scene.start("main");
+    },
+    this
+  );
+
+  // Add keyboard input
+  const keyI = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.I);
+  keyI.on(
+    "down",
+    function () {
+      initializeGame();
+      this.scene.start("instructions");
     },
     this
   );
@@ -156,8 +368,8 @@ function createGameOver() {
 
   // Add button for new game
   const newGameButton = this.add
-    .text(game.config.width / 2, game.config.height / 2 + 100, "[N]ew Game", {
-      fontSize: "24px",
+    .text(game.config.width / 2, 490, "[N]ew Game", {
+      fontSize: "36px",
       fill: "#fff",
     })
     .setOrigin(0.5);
@@ -173,8 +385,8 @@ function createGameOver() {
 
   // Add button for main menu
   const mainMenuButton = this.add
-    .text(game.config.width / 2, game.config.height / 2 + 150, "[M]ain Menu", {
-      fontSize: "24px",
+    .text(game.config.width / 2, 540, "[M]ain Menu", {
+      fontSize: "36px",
       fill: "#fff",
     })
     .setOrigin(0.5);
@@ -278,6 +490,15 @@ function createGameCompleted() {
     },
     this
   );
+}
+
+// preload the game assets
+function preloadInstructions() {
+  this.load.image("beer", "images/beer.png");
+  this.load.image("plagiarism", "images/plagiointi.png");
+  this.load.image("selvitys", "images/selvitys.png");
+  this.load.image("safeArea", "images/selitys.png");
+  this.load.image("enemy3", "images/3p.png");
 }
 
 // preload the game assets
@@ -524,7 +745,7 @@ function updateMain() {
       }
       scoreText.setText("Opintopisteet: " + score + "/180");
       enemy.y = 0;
-      selvitysHealth = 5;
+      selvitysHealth = 4;
       enemy.disableBody(true, true);
     }
   }, this);
@@ -594,13 +815,13 @@ function spawnEnemy() {
 }
 // Function for firing bullets
 function fireBullet() {
-  let bullet = bullets.get(player.x, player.y - 20);
+  let bullet = bullets.get(player.x, player.y - 30);
   if (bullet) {
     bullet.key = "bullet";
     bullet.setActive(true);
     bullet.setVisible(true);
-    bullet.enableBody(true, player.x, player.y - 50, true, true);
-    bullet.body.velocity.y = -500;
+    bullet.enableBody(true, player.x, player.y - 30, true, true);
+    bullet.body.velocity.y = -1000;
   }
 }
 
@@ -613,7 +834,6 @@ function addGpa(enemy) {
 
 // Function for calculating enemy grade according to its y position
 function calculateGrade(enemy) {
-  console.log(enemy.y);
   if (enemy.y <= 105) {
     return 5;
   }
@@ -679,7 +899,6 @@ function playerPlagiarized(player, object) {
 function bulletHitSelvitys(bullet, selvitys) {
   // Increase score
   selvitysHealth -= 1;
-  console.log(selvitysHealth);
   bullet.disableBody(true, true);
   if (selvitysHealth <= 0) {
     let kaboom = this.add
@@ -689,7 +908,7 @@ function bulletHitSelvitys(bullet, selvitys) {
     kaboom.anims.play("kaboom");
     // Destroy bullet and enemy
     selvitys.disableBody(true, true);
-    selvitysHealth = 5;
+    selvitysHealth = 4;
   }
 }
 
