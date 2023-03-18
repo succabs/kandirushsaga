@@ -5,3 +5,4 @@ node_modules/
 .DS_Store
 assets/.DS_Store
 assets/graphics/.DS_Store
+dist

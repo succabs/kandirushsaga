@@ -1,3 +1,4 @@
+import "phaser";
 // Menu scene creation
 const MenuScene = {
   key: "menu",
@@ -76,7 +77,7 @@ const InstructionScene = {
         }
       )
       .setOrigin(0.5);
-    numberPicture = this.add.image(35, 35, "enemy3").setScale(0.8);
+    let numberPicture = this.add.image(35, 35, "enemy3").setScale(0.8);
     this.add.line(70, 65, 60, 30, 180, 150, 0x6666ff);
     this.add
       .text(
@@ -89,7 +90,7 @@ const InstructionScene = {
         }
       )
       .setOrigin(0.5);
-    beerPicture = this.add.image(30, 100, "beer").setScale(0.1);
+    let beerPicture = this.add.image(30, 100, "beer").setScale(0.1);
     this.add.line(50, 165, 40, 0, 110, 100, 0x6666ff);
     this.add
       .text(
@@ -227,6 +228,7 @@ let config = {
   type: Phaser.AUTO,
   width: 800,
   height: 600,
+  parent: 'thegame',
   physics: {
     default: "arcade",
     arcade: {
@@ -269,6 +271,7 @@ let canShoot = true;
 let nextHealthLoss;
 let loadingBar;
 let progress;
+let graphics;
 
 function initializeGame() {
   health = 32;
