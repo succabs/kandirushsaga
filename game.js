@@ -494,34 +494,34 @@ function createGameCompleted() {
 
 // preload the game assets
 function preloadInstructions() {
-  this.load.image("beer", "images/beer.png");
-  this.load.image("plagiarism", "images/plagiointi.png");
-  this.load.image("selvitys", "images/selvitys.png");
-  this.load.image("safeArea", "images/selitys.png");
-  this.load.image("enemy3", "images/3p.png");
+  this.load.image("beer", "assets/images/beer.png");
+  this.load.image("plagiarism", "assets/images/plagiointi.png");
+  this.load.image("selvitys", "assets/images/selvitys.png");
+  this.load.image("safeArea", "assets/images/selitys.png");
+  this.load.image("enemy3", "assets/images/3p.png");
 }
 
 // preload the game assets
 function preload() {
-  this.load.image("player", "images/playerhat.png");
-  this.load.image("bullet", "images/bullet.png");
-  this.load.image("beer", "images/beer.png");
-  this.load.image("plagiarism", "images/plagiointi.png");
-  this.load.image("selvitys", "images/selvitys.png");
-  this.load.image("safeArea", "images/selitys.png");
-  this.load.image("enemy1", "images/1p.png");
-  this.load.image("enemy2", "images/2p.png");
-  this.load.image("enemy3", "images/3p.png");
-  this.load.image("enemy4", "images/4p.png");
-  this.load.image("enemy5", "images/5p.png");
+  this.load.image("player", "assets/images/playerhat.png");
+  this.load.image("bullet", "assets/images/bullet.png");
+  this.load.image("beer", "assets/images/beer.png");
+  this.load.image("plagiarism", "assets/images/plagiointi.png");
+  this.load.image("selvitys", "assets/images/selvitys.png");
+  this.load.image("safeArea", "assets/images/selitys.png");
+  this.load.image("enemy1", "assets/images/1p.png");
+  this.load.image("enemy2", "assets/images/2p.png");
+  this.load.image("enemy3", "assets/images/3p.png");
+  this.load.image("enemy4", "assets/images/4p.png");
+  this.load.image("enemy5", "assets/images/5p.png");
 
-  this.load.audio("shoot", "sounds/shoot.wav");
-  this.load.audio("explosion", "sounds/explosion.wav");
-  this.load.audio("drink", "sounds/drink.wav");
-  this.load.audio("warning", "sounds/warning.ogg");
-  this.load.audio("gaudeamus", "sounds/gaudeamus.m4a");
+  this.load.audio("shoot", "assets/sounds/shoot.wav");
+  this.load.audio("explosion", "assets/sounds/explosion.wav");
+  this.load.audio("drink", "assets/sounds/drink.wav");
+  this.load.audio("warning", "assets/sounds/warning.ogg");
+  this.load.audio("gaudeamus", "assets/sounds/gaudeamus.m4a");
 
-  this.load.spritesheet("kaboom", "images/kaboom.png", {
+  this.load.spritesheet("kaboom", "assets/images/kaboom.png", {
     frameWidth: 64,
     frameHeight: 64,
   });
@@ -671,7 +671,7 @@ function createMain() {
     },
   });
 
-  // Add sounds
+  // Add assets/sounds
   this.shootSound = this.sound.add("shoot");
   this.explosionSound = this.sound.add("explosion");
   this.drinkSound = this.sound.add("drink");
