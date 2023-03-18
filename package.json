@@ -4,7 +4,7 @@
   "description": "A Javascript canvas 2D top-down shooter.",
   "main": "game.js",
   "scripts": {
-    "development": "npx http-server",
+    "development": "webpack serve --open --config webpack.development.js",
     "distribution": "webpack --config webpack.distribution.js"
   },
   "keywords": [],

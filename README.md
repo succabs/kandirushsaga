@@ -30,10 +30,8 @@ That is harsh. See the other answers.
 
 1. Clone repository
 2. npm -i
-3. npx http-server
+3. to run as dev: npm run development / to make distributable bundle file: npm run distribution
 4. have fun
-
-I will put a working product on my own site when it's ready enough (soonTM).
 
 # License?
 
@@ -44,7 +42,5 @@ MIT.
 - äänet (gaudeamus igitur pelin läpäistessä, kelaääni selvityspyynnön tuhoutuessa)
 - lisää tapahtumia, koska opiskelijan elämä on tapahtumarikasta
 - grafiikkaa
-- tutoriaali itse peliin
+- tutoriaali itse peliin valmiiksi
 - voittoruutuun lakitettu minna canth taustalle
-- ajastin, joka näyttää joka 10 sekunnin välein tapahtuvan tukikuukauden menetyksen
-- webpack js juttu (yksi js-tiedosto pelin jakamiseen)
