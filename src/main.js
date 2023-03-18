@@ -43,6 +43,7 @@ const InstructionScene = {
         fill: "#fff",
       })
       .setOrigin(0.5);
+    let playerPicture = this.add.image(40, 110, "player").setScale(0.1);
     this.add
       .text(config.width / 2, 100, "Liikkuminen: vasen/oikea nuoli.", {
         fontSize: "16px",
@@ -77,8 +78,7 @@ const InstructionScene = {
         }
       )
       .setOrigin(0.5);
-    let numberPicture = this.add.image(35, 35, "enemy3").setScale(0.8);
-    this.add.line(70, 65, 60, 30, 180, 150, 0x6666ff);
+    let numberPicture = this.add.image(40, 170, "enemy3").setScale(0.7);
     this.add
       .text(
         config.width / 2,
@@ -90,8 +90,7 @@ const InstructionScene = {
         }
       )
       .setOrigin(0.5);
-    let beerPicture = this.add.image(30, 100, "beer").setScale(0.1);
-    this.add.line(50, 165, 40, 0, 110, 100, 0x6666ff);
+    let beerPicture = this.add.image(40, 220, "beer").setScale(0.1);
     this.add
       .text(
         config.width / 2,
@@ -125,6 +124,7 @@ const InstructionScene = {
         }
       )
       .setOrigin(0.5);
+    let selvitysPicture = this.add.image(40, 280, "selvitys").setScale(0.1);
     this.add
       .text(
         config.width / 2,
@@ -136,6 +136,7 @@ const InstructionScene = {
         }
       )
       .setOrigin(0.5);
+    let plagiarismPicture = this.add.image(40, 340, "plagiarism").setScale(0.1);
     this.add
       .text(
         config.width / 2,
@@ -147,6 +148,7 @@ const InstructionScene = {
         }
       )
       .setOrigin(0.5);
+    let selitysPicture = this.add.image(40, 380, "safeArea").setScale(0.3);
     this.add
       .text(
         config.width / 2,
@@ -502,6 +504,7 @@ function createGameCompleted() {
 
 // preload the game assets
 function preloadInstructions() {
+  this.load.image("player", "assets/images/playerhat.png");
   this.load.image("beer", "assets/images/beer.png");
   this.load.image("plagiarism", "assets/images/plagiointi.png");
   this.load.image("selvitys", "assets/images/selvitys.png");
