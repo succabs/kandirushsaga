@@ -279,6 +279,11 @@ let nextHealthLoss;
 let loadingBar;
 let progress;
 let graphics;
+let leftButton;
+let rightButton;
+let shootButton;
+let isMovingLeft = false;
+let isMovingRight = false;
 
 function initializeGame() {
   health = 32;
@@ -687,6 +692,44 @@ function createMain() {
   this.explosionSound = this.sound.add("explosion");
   this.drinkSound = this.sound.add("drink");
   this.warningSound = this.sound.add("warning");
+
+  // Virtuaalipainikkeet mobiililaitteille
+  leftButton = this.add.rectangle(80, 550, 100, 60, 0x222222).setInteractive();
+  rightButton = this.add
+    .rectangle(200, 550, 100, 60, 0x222222)
+    .setInteractive();
+  shootButton = this.add
+    .rectangle(700, 550, 100, 60, 0x880000)
+    .setInteractive();
+
+  this.add
+    .text(80, 550, "←", { fontSize: "24px", color: "#fff" })
+    .setOrigin(0.5);
+  this.add
+    .text(200, 550, "→", { fontSize: "24px", color: "#fff" })
+    .setOrigin(0.5);
+  this.add
+    .text(700, 550, "🧨", { fontSize: "24px", color: "#fff" })
+    .setOrigin(0.5);
+
+  // Liikevasen
+  leftButton.on("pointerdown", () => (isMovingLeft = true));
+  leftButton.on("pointerup", () => (isMovingLeft = false));
+  leftButton.on("pointerout", () => (isMovingLeft = false));
+
+  // Liikeoikea
+  rightButton.on("pointerdown", () => (isMovingRight = true));
+  rightButton.on("pointerup", () => (isMovingRight = false));
+  rightButton.on("pointerout", () => (isMovingRight = false));
+
+  // Ampuminen
+  shootButton.on("pointerdown", () => {
+    if (canShoot && this.time.now > lastFired + 300) {
+      this.shootSound.play();
+      fireBullet();
+      lastFired = this.time.now;
+    }
+  });
 }
 // Main game update function, logic, buttons
 function updateMain() {
@@ -714,11 +757,13 @@ function updateMain() {
   if (canShoot) {
     // Move player left and right
     if (
-      this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT).isDown
+      this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT).isDown ||
+      isMovingLeft
     ) {
       player.setVelocityX(-500);
     } else if (
-      this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT).isDown
+      this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT).isDown ||
+      isMovingRight
     ) {
       player.setVelocityX(500);
     } else {

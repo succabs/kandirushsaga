@@ -1,8 +1,16 @@
 html,
 body {
+  margin: 0;
+  padding: 0;
   display: flex;
   flex-direction: row;
   text-align: center;
+  min-height: 100vh;
+  width: 100%;
+}
+
+body {
+  flex-wrap: wrap;
 }
 
 h1,
@@ -40,4 +48,46 @@ ul {
 }
 .footer p {
   text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+  body {
+    flex-direction: column;
+  }
+
+  #thegame,
+  .container {
+    width: 100%;
+    display: block;
+  }
+
+  canvas {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 90vh;
+    margin: 0 auto;
+  }
+
+  .container {
+    padding: 1rem;
+  }
+}
+
+canvas {
+  height: 600px;
+}
+
+@media screen and (max-width: 768px) {
+  canvas {
+    height: 90vh !important;
+    width: 100% !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .virtual-button {
+    width: 100px;
+    height: 60px;
+    font-size: 24px;
+  }
 }
