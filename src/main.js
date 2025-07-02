@@ -233,8 +233,8 @@ const InstructionScene = {
 // Configuring the game
 let config = {
   type: Phaser.AUTO,
-  width: 800,
-  height: 600,
+  width: window.innerWidth,
+  height: window.innerHeight,
   parent: "thegame",
   physics: {
     default: "arcade",
@@ -550,16 +550,13 @@ function createMain() {
   // Define the colors to use in the gradient
   var colors = [0x3498db, 0x5dade2, 0x85c1e9, 0xaed6f1, 0xd6eaf8];
   // Create the five gradient areas
-  for (var i = 0; i < 5; i++) {
-    // Calculate the color of the current area based on the index
-    var color = colors[i];
-    // Create the graphics object for the current area
-    var area = this.add.graphics();
-    // Set the fill color to the calculated color
+  let areaHeight = config.height / 5;
+
+  for (let i = 0; i < 5; i++) {
+    let color = colors[i];
+    let area = this.add.graphics();
     area.fillStyle(color);
-    // Draw a rectangle for the current area at the top of the screen
-    area.fillRect(0, i * 105, game.config.width, 105);
-    // Add the graphics object to the scene
+    area.fillRect(0, i * areaHeight, config.width, areaHeight);
     this.add.existing(area);
   }
 
@@ -694,22 +691,35 @@ function createMain() {
   this.warningSound = this.sound.add("warning");
 
   // Virtuaalipainikkeet mobiililaitteille
-  leftButton = this.add.rectangle(80, 550, 100, 60, 0x222222).setInteractive();
+  let bottomOffset = config.height - 80; // noin 80px marginaali alhaalta
+
+  leftButton = this.add
+    .rectangle(config.width * 0.15, bottomOffset, 100, 60, 0x222222)
+    .setInteractive();
   rightButton = this.add
-    .rectangle(200, 550, 100, 60, 0x222222)
+    .rectangle(config.width * 0.35, bottomOffset, 100, 60, 0x222222)
     .setInteractive();
   shootButton = this.add
-    .rectangle(700, 550, 100, 60, 0x880000)
+    .rectangle(config.width * 0.85, bottomOffset, 100, 60, 0x880000)
     .setInteractive();
 
   this.add
-    .text(80, 550, "←", { fontSize: "24px", color: "#fff" })
+    .text(config.width * 0.15, bottomOffset, "←", {
+      fontSize: "24px",
+      color: "#fff",
+    })
     .setOrigin(0.5);
   this.add
-    .text(200, 550, "→", { fontSize: "24px", color: "#fff" })
+    .text(config.width * 0.35, bottomOffset, "→", {
+      fontSize: "24px",
+      color: "#fff",
+    })
     .setOrigin(0.5);
   this.add
-    .text(700, 550, "🧨", { fontSize: "24px", color: "#fff" })
+    .text(config.width * 0.85, bottomOffset, "🧨", {
+      fontSize: "24px",
+      color: "#fff",
+    })
     .setOrigin(0.5);
 
   // Liikevasen
@@ -746,6 +756,10 @@ function updateMain() {
     false
   );
   loadingBar.strokePath();
+
+  let baseWidth = 800; // alkuperäinen oletusleveys
+  let moveSpeed = (config.width / baseWidth) * 500; // skaalaa 500 leveydellä
+
   this.input.keyboard.on("keydown-M", function () {
     if (game.sound.mute) {
       game.sound.setMute(false);
@@ -760,12 +774,12 @@ function updateMain() {
       this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT).isDown ||
       isMovingLeft
     ) {
-      player.setVelocityX(-500);
+      player.setVelocityX(-moveSpeed);
     } else if (
       this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT).isDown ||
       isMovingRight
     ) {
-      player.setVelocityX(500);
+      player.setVelocityX(moveSpeed);
     } else {
       player.setVelocityX(0);
     }
@@ -890,18 +904,14 @@ function addGpa(enemy) {
 
 // Function for calculating enemy grade according to its y position
 function calculateGrade(enemy) {
-  if (enemy.y <= 105) {
-    return 5;
-  }
-  if (enemy.y <= 210) {
-    return 4;
-  }
-  if (enemy.y <= 315) {
-    return 3;
-  }
-  if (enemy.y <= 420) {
-    return 2;
-  } else return 1;
+  const height = game.config.height;
+  const band = height / 5;
+
+  if (enemy.y <= band) return 5;
+  if (enemy.y <= band * 2) return 4;
+  if (enemy.y <= band * 3) return 3;
+  if (enemy.y <= band * 4) return 2;
+  return 1;
 }
 
 // Function for bullet hitting an enemy

@@ -26,8 +26,6 @@ p {
 /* CSS styles for the game canvas */
 canvas {
   border: 1px solid black;
-  max-width: 800px;
-  max-height: 600px;
 }
 
 ul {
@@ -40,6 +38,9 @@ ul {
 .container {
   padding-left: 1rem;
   padding-right: 1rem;
+  width: 65ch;
+  max-width: 65ch;
+  display: block;
 }
 
 .footer {
@@ -55,32 +56,16 @@ ul {
     flex-direction: column;
   }
 
-  #thegame,
-  .container {
+  #thegame {
     width: 100%;
+    min-width: 100%;
     display: block;
   }
 
   canvas {
-    width: 100% !important;
-    height: auto !important;
-    max-height: 90vh;
+    display: block;
     margin: 0 auto;
-  }
-
-  .container {
-    padding: 1rem;
-  }
-}
-
-canvas {
-  height: 600px;
-}
-
-@media screen and (max-width: 768px) {
-  canvas {
-    height: 90vh !important;
-    width: 100% !important;
+    border: none;
   }
 }
 
